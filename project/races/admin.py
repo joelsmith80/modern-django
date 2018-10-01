@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Race, Rider
+from .models import Race, Rider, Participation
 
 
 class RaceAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class RaceAdmin(admin.ModelAdmin):
 
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Rider)
+admin.site.register(Participation)

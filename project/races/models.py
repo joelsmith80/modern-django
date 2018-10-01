@@ -42,3 +42,21 @@ class Rider(models.Model):
     def __str__(self):
         return self.last_name + ", " + self.first_name
 
+class Participation(models.Model):
+
+    class Meta:
+        db_table = "participations"
+
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
+    bib = models.PositiveSmallIntegerField(null=True,blank=True)
+    team = models.CharField(max_length=200)
+    dnf = models.PositiveSmallIntegerField(null=True,blank=True)
+    comments = models.TextField(null=True,blank=True)
+    role = models.CharField(max_length=200,blank=True,null=True)
+    jersey_hunt = models.CharField(max_length=200,blank=True,null=True)
+    rank = models.PositiveSmallIntegerField(null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
