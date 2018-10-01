@@ -55,7 +55,7 @@ class Participation(models.Model):
     comments = models.TextField(null=True,blank=True)
     role = models.CharField(max_length=200,blank=True,null=True)
     jersey_hunt = models.CharField(max_length=200,blank=True,null=True)
-    rank = models.PositiveSmallIntegerField(null=True,blank=True)
+    val = models.PositiveSmallIntegerField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
