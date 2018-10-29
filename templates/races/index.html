@@ -23,7 +23,7 @@
         <ul>
           {% for race in latest_races_list %}
             <li>
-              <h3><a href="#">{{ race.name }}</a></li></h3>
+              <h3><a href="{% url 'races:detail' race.slug %}">{{ race.name }}</a></li></h3>
               <p>{{ race.starts }}</p>
             </li>
           {% endfor %}

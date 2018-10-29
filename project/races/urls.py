@@ -5,5 +5,5 @@ from . import views
 app_name = "races"
 urlpatterns = [
     path("", views.index, name="index"),
-    path("<int:id>/", views.detail, name="detail")
+    path("races/<slug:slug>/", views.detail, name="detail")
 ]
