@@ -1,0 +1,23 @@
+<!-- templates/races/index.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}{{ league.name }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ league.name }}</h1>
+
+{% if teams %}
+  <ul>
+    {% for team in teams %}
+      <li>
+        <h2><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></li></h2>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>There are no teams in this league yet.</p>
+{% endif %}
+
+{% endblock %}

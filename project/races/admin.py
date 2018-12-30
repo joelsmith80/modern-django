@@ -15,11 +15,14 @@ class TeamAdmin(admin.ModelAdmin):
     list_display = ('name','user','league')
 
 class LeagueAdmin(admin.ModelAdmin):
-    list_display = ('name','race','owner','is_private')
+    list_display = ('name','id','owner','is_classic','is_private')
+
+class RiderAdmin(admin.ModelAdmin):
+    list_display = ('last_name','first_name','id','country')
 
 
 admin.site.register(Race, RaceAdmin)
-admin.site.register(Rider)
 admin.site.register(Participation,ParticipationAdmin)
 admin.site.register(Team,TeamAdmin)
 admin.site.register(League,LeagueAdmin)
+admin.site.register(Rider,RiderAdmin)

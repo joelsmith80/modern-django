@@ -75,6 +75,7 @@ class League(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
     password = models.CharField(max_length=32, blank=True, null=True)
     has_drafted = models.BooleanField(default=0)
+    is_classic = models.BooleanField(default=0)
     is_private = models.BooleanField(default=0)
     is_full = models.BooleanField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)

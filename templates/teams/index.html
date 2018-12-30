@@ -1,0 +1,30 @@
+<!-- templates/leagues/index.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Teams{% endblock %}
+
+{% block content %}
+
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h1 class="section-title">Teams</h1>
+    </header>
+    <div class="section-content region">
+      {% if teams %}
+        <ul>
+          {% for team in teams %}
+            <li>
+              <h2><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></li></h2>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+      <p>No teams have signed up yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
