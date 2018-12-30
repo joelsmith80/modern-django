@@ -1,0 +1,42 @@
+.wrap {
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    width: 100%;
+    @include responsive(35){
+      padding: 0;
+    }
+}
+
+@include responsive(3){
+
+    $wrapWidth: 720px;
+    $column: 40px;
+    $gutter: 20px;
+    
+    .wrap {
+        width: $wrapWidth;
+    }
+}
+@include responsive(4){
+
+    $wrapWidth: 960px;
+    $column: 60px;
+    $gutter: 20px;
+
+    .wrap {
+        width: $wrapWidth;
+    }
+}
+
+@include responsive(5){
+
+    $wrapWidth: 1176px;
+    $column: 74px;
+    $gutter: 24px;
+
+    .wrap {
+        width: $wrapWidth;
+    }
+
+}

@@ -1,0 +1,55 @@
+// A MIXIN THAT HANDLES RESPONSIVE BREAKPOINTS //
+
+$wide-min: 1240px;
+$normal-max: 1239px;
+$normal-min: 1030px;
+$narrow-max: 1029px;
+$narrow-min: 768px;
+$mobile-wide-max: 767px;
+$mobile-wide-min: 481px;
+$mobile-narrow-max: 480px;
+
+@mixin responsive($width){
+  @if $width == 1 {
+    @media only screen and (max-width: $mobile-narrow-max) {@content;}
+  }
+  @if $width == 12 {
+    @media only screen and (max-width: $mobile-wide-max) {@content;}
+  }
+  @if $width == 13 {
+    @media only screen and (max-width: $narrow-max) {@content;}
+  }
+  @if $width == 14 {
+    @media only screen and (max-width: $normal-max) {@content;}
+  }
+  @if $width == 2 {
+    @media only screen and (min-width: $mobile-wide-min) and (max-width: $mobile-wide-max) {@content;}
+  }
+  @if $width == 23 {
+    @media only screen and (min-width: $mobile-wide-min) and (max-width: $narrow-max) {@content;}
+  }
+  @if $width == 24 {
+    @media only screen and (min-width: $mobile-wide-min) and (max-width: $normal-max) {@content;}
+  }
+  @if $width == 25 {
+    @media only screen and (min-width: $mobile-wide-min) {@content;}
+  }
+  @if $width == 3 {
+    @media only screen and (min-width: $narrow-min) and (max-width: $narrow-max) {@content;}
+  }
+  @if $width == 34 {
+    @media only screen and (min-width: $narrow-min) and (max-width: $normal-max) {@content;}
+  }
+  @if $width == 35 {
+    @media only screen and (min-width: $narrow-min) {@content;}
+  }
+  @if $width == 4 {
+    @media only screen and (min-width: $normal-min) and (max-width: $normal-max) {@content;}
+  }
+  @if $width == 45 {
+    @media only screen and (min-width: $normal-min) {@content;}
+  }
+  @if $width == 5 {
+    @media only screen and (min-width: $wide-min) {@content;}
+  }
+}

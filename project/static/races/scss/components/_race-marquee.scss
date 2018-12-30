@@ -1,0 +1,55 @@
+.race-marquee {
+    
+    background: blue;
+    min-height: 33vh;
+
+    .wrap {
+        align-content: center;
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 1rem;
+    }
+
+    .wrap > * {
+        background: white;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .intro {
+        grid-row-start: span 3;
+        grid-column-start: span 2;
+        .title {
+            margin: 0 0 0.5rem 0;
+        }
+        p:last-child {
+            margin: 0;
+        }
+    }
+
+    .map {
+        grid-row-start: span 1;
+        grid-column-start: span 2;
+        a {
+            text-decoration: none;
+        }
+    }
+
+    .distance {
+        grid-row-start: span 1;
+        grid-column-start: span 2;
+    }
+
+    .start-city {
+        grid-row-start: span 1;
+        grid-column-start: span 1;
+    }
+
+    .end-city {
+        grid-row-start: span 1;
+        grid-column-start: span 1;
+    }
+
+
+}

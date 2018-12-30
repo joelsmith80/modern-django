@@ -1,0 +1,80 @@
+/* =============
+BASICS
+================ */
+.wrap {
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  width: 100%;
+}
+@media only screen and (min-width: 768px) {
+  .wrap {
+    padding: 0;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1029px) {
+  .wrap {
+    width: 720px;
+  }
+}
+@media only screen and (min-width: 1030px) and (max-width: 1239px) {
+  .wrap {
+    width: 960px;
+  }
+}
+@media only screen and (min-width: 1240px) {
+  .wrap {
+    width: 1176px;
+  }
+}
+/* =============
+COMPONENTS
+================ */
+.race-marquee {
+  background: blue;
+  min-height: 33vh;
+}
+.race-marquee .wrap {
+  align-content: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+.race-marquee .wrap > * {
+  background: white;
+  padding: 1rem;
+  text-align: center;
+}
+.race-marquee .intro {
+  grid-row-start: span 3;
+  grid-column-start: span 2;
+}
+.race-marquee .intro .title {
+  margin: 0 0 0.5rem 0;
+}
+.race-marquee .intro p:last-child {
+  margin: 0;
+}
+.race-marquee .map {
+  grid-row-start: span 1;
+  grid-column-start: span 2;
+}
+.race-marquee .map a {
+  text-decoration: none;
+}
+.race-marquee .distance {
+  grid-row-start: span 1;
+  grid-column-start: span 2;
+}
+.race-marquee .start-city {
+  grid-row-start: span 1;
+  grid-column-start: span 1;
+}
+.race-marquee .end-city {
+  grid-row-start: span 1;
+  grid-column-start: span 1;
+}
+
+/*# sourceMappingURL=style.css.map */

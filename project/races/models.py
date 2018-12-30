@@ -1,3 +1,5 @@
+from django.conf import settings
+from django import forms
 from django.db import models
 
 class Race(models.Model):
@@ -10,6 +12,10 @@ class Race(models.Model):
     year = models.PositiveSmallIntegerField()
     starts = models.DateField()
     ends = models.DateField()
+    description = models.TextField(blank=True, null=True)
+    start_city = models.CharField(max_length=200, blank=True, null=True)
+    end_city = models.CharField(max_length=200, blank=True, null=True)
+    distance = models.CharField(max_length=200, blank=True, null=True)
     num_stages = models.PositiveSmallIntegerField(default=1)
     link = models.URLField(blank=True)
     teams_per_league = models.PositiveSmallIntegerField(blank=True,null=True)
@@ -59,4 +65,34 @@ class Participation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class League(models.Model):
 
+    class Meta:
+        db_table = "leagues"
+
+    name = models.CharField(max_length=200)
+    race = models.ForeignKey(Race, blank=True, null=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
+    password = models.CharField(max_length=32, blank=True, null=True)
+    has_drafted = models.BooleanField(default=0)
+    is_private = models.BooleanField(default=0)
+    is_full = models.BooleanField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class Team(models.Model):
+
+    class Meta:
+        db_table = "teams"
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
+    name = models.CharField(max_length=200)
+    league = models.ForeignKey(League, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
