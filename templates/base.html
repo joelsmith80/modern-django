@@ -9,11 +9,23 @@
   <link rel="stylesheet" type="text/css" href="{% static 'races/css/style.css' %}">
 </head>
 <body>
-  <header><a href="/">Spring Classics</a></header>
+
+  <header>
+    <div class="wrap">
+      <div class="region"><a href="/">Spring Classics</a></div>
+    </div>
+  </header>
+  
   <main>
     {% block content %}
     {% endblock %}
   </main>
-  <footer>The footer</footer>
+  
+  <footer>
+    <div class="wrap">
+      <div class="region">The footer</div>
+    </div>
+  </footer>
+
 </body>
 </html>

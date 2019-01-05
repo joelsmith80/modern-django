@@ -2,7 +2,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{{ race.name }}{% endblock %}
 
 {% block content %}
 
@@ -28,5 +28,42 @@
   </div>
 </section>
 
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h2 class="section-title">Riders In This Race</h2>
+    </header>
+    <div class="section-content region">
+      {% if participants %}
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Rider</th>
+              <th>Prospects</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in participants %}
+              <tr>
+                <td></td>
+                <td>
+                  <p>{{ p.rider }}</p>
+                  <p>#{{ p.bib }} {{ p.team }} - {{ p.rider.country }}</p>
+                </td>
+                <td>{{ p.val }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <ul>
+          
+        </ul>
+      {% else %}
+        <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
 
 {% endblock %}

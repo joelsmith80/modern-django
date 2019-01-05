@@ -4,6 +4,7 @@ from .models import Race
 from .models import League
 from .models import Team
 from .models import Rider
+from .models import Participation
 
 def home(request):
     # latest_races_list = Race.objects.order_by("-starts")
@@ -14,7 +15,8 @@ def home(request):
 def race_show(request,slug):
     # race = get_object_or_404(Race,slug=slug)
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
-    return render(request, 'races/detail.html',{'race': race})
+    participants = Participation.objects.filter(race=race.id).order_by('bib')
+    return render(request, 'races/detail.html',{'race': race, 'participants': participants})
 
 def leagues_index(request):
     leagues_list = League.objects.filter(is_classic=1).order_by('name')
