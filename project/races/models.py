@@ -148,3 +148,25 @@ class Jersey(models.Model):
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Post(models.Model):
+
+    class Meta:
+        db_table = "posts"
+
+    TYPE_CHOICES = (
+        ('general','General'),
+        ('preview','Preview'),
+        ('review','Review'),
+    )
+
+    title = models.CharField(max_length=200)
+    slug = models.SlugField()
+    body = models.TextField(blank=True, null=True)
+    date = models.DateField()
+    post_type = models.CharField(max_length=7, choices=TYPE_CHOICES, default='general')
+    race = models.ForeignKey(Race, blank=True, null=True, on_delete=models.SET_NULL)
+    stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.SET_NULL)
+    riders = models.ManyToManyField(Rider)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

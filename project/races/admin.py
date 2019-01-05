@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Race, Rider, Participation, Team, League
+from .models import Race, Rider, Participation, Team, League, Post
 
 
 class RaceAdmin(admin.ModelAdmin):
@@ -20,9 +20,13 @@ class LeagueAdmin(admin.ModelAdmin):
 class RiderAdmin(admin.ModelAdmin):
     list_display = ('last_name','first_name','id','country')
 
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title','date','race')
+
 
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Participation,ParticipationAdmin)
 admin.site.register(Team,TeamAdmin)
 admin.site.register(League,LeagueAdmin)
 admin.site.register(Rider,RiderAdmin)
+admin.site.register(Post,PostAdmin)
