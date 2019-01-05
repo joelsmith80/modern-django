@@ -12,7 +12,8 @@ def home(request):
     return render(request, 'races/index.html', context)
 
 def race_show(request,slug):
-    race = get_object_or_404(Race,slug=slug)
+    # race = get_object_or_404(Race,slug=slug)
+    race = Race.objects.filter(slug=slug).order_by('-id')[0]
     return render(request, 'races/detail.html',{'race': race})
 
 def leagues_index(request):

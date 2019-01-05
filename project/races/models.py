@@ -40,7 +40,7 @@ class Rider(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     country = models.CharField(max_length=5)
-    birthday = models.DateField()
+    birthday = models.DateField(blank=True,null=True)
     pro_cycling = models.URLField(blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -97,3 +97,54 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+class FinalResult(models.Model):
+
+    class Meta:
+        db_table = "final_results"
+
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    place = models.PositiveSmallIntegerField(null=True,blank=True)
+    rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.place
+
+class Stage(models.Model):
+
+    class Meta:
+        db_table = "stages"
+
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    stage_num = models.PositiveSmallIntegerField(default=1, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    distance = models.CharField(max_length=200, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    stage_type = models.CharField(max_length=200, blank=True, null=True)
+    depart_city = models.CharField(max_length=200, blank=True, null=True)
+    depart_lat = models.CharField(max_length=200, blank=True, null=True)
+    depart_long = models.CharField(max_length=200, blank=True, null=True)
+    arrive_city = models.CharField(max_length=200, blank=True, null=True)
+    arrive_lat = models.CharField(max_length=200, blank=True, null=True)
+    arrive_long = models.CharField(max_length=200, blank=True, null=True)
+    date = models.DateField()
+    is_doubled = models.BooleanField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class Jersey(models.Model):
+
+    class Meta:
+        db_table = "jerseys"
+
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    stage = models.ForeignKey(Stage, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
