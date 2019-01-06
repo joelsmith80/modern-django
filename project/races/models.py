@@ -56,7 +56,7 @@ class Participation(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
     bib = models.PositiveSmallIntegerField(null=True,blank=True)
-    team = models.CharField(max_length=200)
+    squad = models.CharField(max_length=200)
     dnf = models.PositiveSmallIntegerField(null=True,blank=True)
     comments = models.TextField(null=True,blank=True)
     role = models.CharField(max_length=200,blank=True,null=True)
@@ -92,6 +92,7 @@ class Team(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
     name = models.CharField(max_length=200)
     league = models.ForeignKey(League, null=True, on_delete=models.SET_NULL)
+    riders = models.ManyToManyField(Participation, through='Pick')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -168,5 +169,13 @@ class Post(models.Model):
     race = models.ForeignKey(Race, blank=True, null=True, on_delete=models.SET_NULL)
     stage = models.ForeignKey(Stage, blank=True, null=True, on_delete=models.SET_NULL)
     riders = models.ManyToManyField(Rider)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Pick(models.Model):
+
+    rider = models.ForeignKey(Participation, blank=True, null=True, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
