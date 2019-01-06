@@ -35,7 +35,25 @@ def teams_index(request):
 
 def team_show(request,id):
     team = get_object_or_404(Team,id=id)
-    return render(request, 'teams/detail.html',{'team': team})
+    races = Race.objects.filter(is_classic=1).order_by('starts')
+    team_belongs_to_user = True if request.user.id == team.user_id else False
+    context = {
+        'team': team,
+        'races': races,
+        'team_belongs_to_user': team_belongs_to_user
+    }
+    return render(request, 'teams/detail.html',context)
+
+def team_race(request,id,slug):
+    team = get_object_or_404(Team,id=id)
+    race = Race.objects.filter(slug=slug).order_by('-id')[0]
+    riders = Participation.objects.filter(race=race.id).order_by('bib')
+    context = {
+        'team': team,
+        'race': race,
+        'riders': riders
+    }
+    return render(request, 'teams/race.html',context)
 
 def rider_show(request,id):
     rider = get_object_or_404(Rider,id=id)

@@ -1,0 +1,69 @@
+<!-- templates/races/index.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}{{ race.name }}{% endblock %}
+
+{% block content %}
+
+<section class="race-marquee {{ race.slug }}">
+  <div class="wrap">
+    <div class="intro">
+      <h1 class="title">{{ race.name }}</h1>
+      <p class="dateline">{{ race.starts }}</p>
+      <p>{{ race.description }}</p>
+    </div>
+    <div class="map">
+      <a href="#" target="_blank" rel="noopener">View Map</a>
+    </div>
+    <div class="distance">
+      {{ race.distance }}
+    </div>
+    <div class="start-city map-point">
+      {{ race.start_city }}
+    </div>
+    <div class="end-city map-point">
+      {{ race.end_city }}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h2 class="section-title">Riders In This Race</h2>
+    </header>
+    <div class="section-content region">
+      {% if riders %}
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Rider</th>
+              <th>Prospects</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in riders %}
+              <tr>
+                <td></td>
+                <td>
+                  <p>{{ r.rider }}</p>
+                  <p>#{{ r.bib }} {{ r.team }} - {{ r.rider.country }}</p>
+                </td>
+                <td>{{ r.val }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <ul>
+          
+        </ul>
+      {% else %}
+        <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

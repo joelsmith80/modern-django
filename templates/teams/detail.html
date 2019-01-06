@@ -8,4 +8,36 @@
 
 <h1>{{ team.name }}</h1>
 
+{% if team_belongs_to_user %}
+    <p>This is your team, so we'll show you some management options.</p>
+{% else %}
+    <p>This isn't your team, so we'll display only public information.</p>
+{% endif %}
+
+{% if races %}
+    <table>
+        <thead>
+            <tr>
+                <th>Race</th>
+                <th>Draft</th>
+                <th>Results</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for race in races %}
+                <tr>
+                    <td>
+                        <h2><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li></h2>
+                        <p>{{ race.starts }}</p>
+                    </td>
+                    <td><a href="#">Draft</a></td>
+                    <td><a href="#">View</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>There are not yet any scheduled races.</p>
+{% endif %}
+
 {% endblock %}

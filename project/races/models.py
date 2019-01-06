@@ -2,6 +2,27 @@ from django.conf import settings
 from django import forms
 from django.db import models
 
+class Rider(models.Model):
+
+    class Meta:
+        db_table = "riders"
+
+    id = models.BigIntegerField(primary_key=True)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    country = models.CharField(max_length=5)
+    birthday = models.DateField(blank=True,null=True)
+    pro_cycling = models.URLField(blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def full_name(self):
+        return self.last_name.upper() + ", " + self.first_name
+    full_name.short_description = "Name";
+
+    def __str__(self):
+        return self.last_name + ", " + self.first_name
+
 class Race(models.Model):
 
     class Meta:
@@ -22,31 +43,15 @@ class Race(models.Model):
     free_stages = models.PositiveSmallIntegerField(blank=True,null=True)
     team_budget = models.PositiveSmallIntegerField(blank=True,null=True)
     team_roster_size = models.PositiveSmallIntegerField(blank=True,null=True)
-    is_live = models.BooleanField(default=0)
-    is_locked = models.BooleanField(default=1)
-    is_classic = models.BooleanField(default=0)
+    is_live = models.BooleanField(default=0,verbose_name="Live?")
+    is_locked = models.BooleanField(default=1,verbose_name="Locked?")
+    is_classic = models.BooleanField(default=0,verbose_name="Classic?")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    riders = models.ManyToManyField(Rider, through='Participation')
 
     def __str__(self):
         return self.name + " (" + str(self.year) + ")"
-
-class Rider(models.Model):
-
-    class Meta:
-        db_table = "riders"
-
-    id = models.BigIntegerField(primary_key=True)
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    country = models.CharField(max_length=5)
-    birthday = models.DateField(blank=True,null=True)
-    pro_cycling = models.URLField(blank=True,null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.last_name + ", " + self.first_name
 
 class Participation(models.Model):
 
@@ -64,6 +69,9 @@ class Participation(models.Model):
     val = models.PositiveSmallIntegerField(null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.rider.last_name.upper() + ", " + self.rider.first_name
 
 class League(models.Model):
 
@@ -92,7 +100,6 @@ class Team(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
     name = models.CharField(max_length=200)
     league = models.ForeignKey(League, null=True, on_delete=models.SET_NULL)
-    riders = models.ManyToManyField(Participation, through='Pick')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,10 +179,14 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class Pick(models.Model):
+class Roster(models.Model):
 
-    rider = models.ForeignKey(Participation, blank=True, null=True, on_delete=models.CASCADE)
+    class Meta:
+        db_table = "rosters"
+        unique_together = (('team','race'),)
+    
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    picks = models.ManyToManyField(Participation)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

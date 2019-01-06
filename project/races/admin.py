@@ -1,24 +1,36 @@
 from django.contrib import admin
 
-from .models import Race, Rider, Participation, Team, League, Post
+from .models import Race, Rider, Participation, Team, League, Post, Roster
 
+
+class ParticipationInline(admin.TabularInline):
+    model = Participation
+    fields = ['rider','bib','squad','val']
+    extra = 1
 
 class RaceAdmin(admin.ModelAdmin):
-    list_display = ('name','starts')
+    list_display = ('name','slug','starts','is_live','is_locked')
+    inlines = (ParticipationInline,)
 
 class ParticipationAdmin(admin.ModelAdmin):
     list_display = ('bib','rider','race','squad','dnf','val')
-    list_filter = ('race','team')
+    list_filter = ('race','squad')
     search_fields = ('rider__last_name',)
+
+class RosterInline(admin.TabularInline):
+    model = Roster
+    extra = 1
 
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('name','user','league')
+    inlines = (RosterInline,)
 
 class LeagueAdmin(admin.ModelAdmin):
     list_display = ('name','id','owner','is_classic','is_private')
 
 class RiderAdmin(admin.ModelAdmin):
-    list_display = ('last_name','first_name','id','country')
+    list_display = ('full_name','id','country')
+    search_fields = ('last_name',)
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title','date','race')
