@@ -13,6 +13,13 @@
   <header>
     <div class="wrap">
       <div class="region"><a href="/">Spring Classics</a></div>
+      <div class="region">
+        {% if user.is_authenticated %}
+          <p>Hi {{ user.username }}! (<a href="{% url 'logout' %}">Log out</a>)</p>
+        {% else %}
+          <p><a href="{% url 'login' %}">Log in</a></p>
+        {% endif %}
+      </div>
     </div>
   </header>
   
