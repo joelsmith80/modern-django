@@ -20,6 +20,7 @@
             </li>
           {% endfor %}
         </ul>
+        <p><a href="{% url 'races:team_add' %}">Create another</a></p>
       {% else %}
         <p>You don't have any teams yet. <a href="{% url 'races:team_add' %}">Go add one.</a></p>
       {% endif %}
