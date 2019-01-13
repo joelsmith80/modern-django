@@ -16,8 +16,12 @@ from .forms import SignUpForm
 
 def home(request):
     # latest_races_list = Race.objects.order_by("-starts")
-    latest_races_list = Race.objects.filter(is_classic=1).order_by('starts')
-    context = {'latest_races_list': latest_races_list}
+    race_list = Race.objects.filter(is_classic=1).order_by('starts')
+    team_list = Team.objects.filter(user = request.user)
+    context = {
+        'race_list': race_list,
+        'team_list': team_list
+    }
     return render(request, 'races/index.html', context)
 
 def signup(request):

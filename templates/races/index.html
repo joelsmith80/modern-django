@@ -6,12 +6,26 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
-{% endif %}
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h2 class="section-title">My Team(s)</h2>
+    </header>
+    <div class="section-content region">  
+      {% if team_list %}
+        <ul>
+          {% for team in team_list %}
+            <li>
+              <h3><a href="#">{{ team.name }}</a></h3>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>You don't have any teams yet. <a href="{% url 'races:team_add' %}">Go add one.</a></p>
+      {% endif %}
+    </div>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
@@ -19,9 +33,9 @@
       <h2 class="section-title">Races</h2>
     </header>
     <div class="section-content region">
-      {% if latest_races_list %}
+      {% if race_list %}
         <ul>
-          {% for race in latest_races_list %}
+          {% for race in race_list %}
             <li>
               <h3><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li></h3>
               <p>{{ race.starts }}</p>
@@ -29,7 +43,7 @@
           {% endfor %}
         </ul>
       {% else %}
-      <p>No upcoming races</p>
+        <p>No upcoming races</p>
       {% endif %}
     </div>
   </div>
