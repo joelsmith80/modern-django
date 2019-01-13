@@ -92,6 +92,12 @@ class League(models.Model):
     def __str__(self):
         return self.name
 
+    def access_type(self):
+        if self.is_private:
+            return "Private"
+        else:
+            return "Public"
+
 class Team(models.Model):
 
     class Meta:

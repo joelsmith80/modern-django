@@ -15,9 +15,10 @@ from .forms import CreateTeamForm
 from .forms import SignUpForm
 
 def home(request):
-    # latest_races_list = Race.objects.order_by("-starts")
     race_list = Race.objects.filter(is_classic=1).order_by('starts')
-    team_list = Team.objects.filter(user = request.user)
+    team_list = None
+    if request.user.is_authenticated:
+        team_list = Team.objects.filter(user = request.user)
     context = {
         'race_list': race_list,
         'team_list': team_list
@@ -40,7 +41,6 @@ def signup(request):
     return render(request,'users/signup.html',{'form': form})
 
 def race_show(request,slug):
-    # race = get_object_or_404(Race,slug=slug)
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
     participants = Participation.objects.filter(race=race.id).order_by('bib')
     return render(request, 'races/detail.html',{'race': race, 'participants': participants})
@@ -54,6 +54,19 @@ def league_show(request,id):
     league = get_object_or_404(League,id=id)
     teams_this_league = Team.objects.filter(league=id).order_by('name')
     return render(request, 'leagues/detail.html',{'league': league, 'teams': teams_this_league})
+
+@login_required
+def league_join(request):
+    if request.method == 'POST':
+        something = 'something'
+    else:
+        joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
+        eligible_teams = Team.objects.filter(user=request.user,league=None)
+        context = {
+            'joinable_leagues': joinable_leagues,
+            'eligible_teams': eligible_teams
+        }
+        return render(request, 'leagues/join.html', context)
 
 def teams_index(request):
     teams_list = Team.objects.order_by('name')
@@ -112,8 +125,12 @@ def league_add(request):
             password = form.cleaned_data['password']
             l = League(
                 name = name,
-                owner = request.user
+                owner = request.user,
+                is_private = is_private,
+                is_classic = 1
             )
+            if is_private:
+                l.password = password
             l.save()
             return HttpResponseRedirect(reverse('races:league_show',args=(l.id,)))
     else:

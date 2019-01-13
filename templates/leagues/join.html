@@ -1,0 +1,41 @@
+<!-- templates/leagues/join.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Join a League{% endblock %}
+
+{% block content %}
+<section>
+    <div class="wrap">
+        <header class="section-header region">
+            <h2 class="section-title">Available Leagues</h2>
+        </header>
+        <div class="section-content region">
+            {% if joinable_leagues %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>League</th>
+                            <th>Type</th>
+                            <th>Team to Add</th>
+                            <th>Join</th>
+                        </tr>
+                    </thead>   
+                    <tbody>
+                    {% for league in joinable_leagues %}
+                        <tr>
+                            <td>{{ league }}</td>
+                            <td>{{ league.access_type }}</td>
+                            <td>Team Dropdown</td>
+                            <td><input type="submit" value="Join"></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody> 
+                </table>
+            {% else %}
+                <p>Sorry, but there are no leagues available to join.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

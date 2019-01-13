@@ -16,7 +16,7 @@
         <ul>
           {% for team in team_list %}
             <li>
-              <h3><a href="#">{{ team.name }}</a></h3>
+              <h3><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h3>
             </li>
           {% endfor %}
         </ul>
