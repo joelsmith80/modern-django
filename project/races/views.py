@@ -1,4 +1,6 @@
-from django.shortcuts import get_object_or_404, render
+from django.contrib.auth import login, authenticate
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect
 
 from .models import Race
 from .models import League
@@ -6,11 +8,30 @@ from .models import Team
 from .models import Rider
 from .models import Participation
 
+from .forms import CreateLeagueForm
+from .forms import CreateTeamForm
+from .forms import SignUpForm
+
 def home(request):
     # latest_races_list = Race.objects.order_by("-starts")
     latest_races_list = Race.objects.filter(is_classic=1).order_by('starts')
     context = {'latest_races_list': latest_races_list}
     return render(request, 'races/index.html', context)
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            email = form.cleaned_data.get('email')
+            user = authenticate(username=username,password=raw_password,email=email)
+            login(request,user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request,'users/signup.html',{'form': form})
 
 def race_show(request,slug):
     # race = get_object_or_404(Race,slug=slug)
@@ -55,6 +76,42 @@ def team_race(request,id,slug):
     }
     return render(request, 'teams/race.html',context)
 
+def team_add(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/thanks/')
+    if request.method == 'POST':
+        form = CreateTeamForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            t = Team(
+                name = name,
+                user = request.user
+            )
+            t.save()
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = CreateTeamForm()
+    return render(request, 'teams/add.html', {'form': form}) 
+
 def rider_show(request,id):
     rider = get_object_or_404(Rider,id=id)
     return render(request, 'riders/detail.html',{'rider': rider})
+
+def league_add(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/thanks/')        
+    if request.method == 'POST':
+        form = CreateLeagueForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            is_private = form.cleaned_data['is_private']
+            password = form.cleaned_data['password']
+            l = League(
+                name = name,
+                owner = request.user
+            )
+            l.save()
+            return HttpResponseRedirect('/thanks/')
+    else:
+        form = CreateLeagueForm()
+    return render(request, 'leagues/add.html', {'form': form}) 

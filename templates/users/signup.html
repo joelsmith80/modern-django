@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Ready to Ride?{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="region">
+        <h1>Sign up</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign up</button>
+        </form>
+    </div>
+</div>
+  
+{% endblock %}
