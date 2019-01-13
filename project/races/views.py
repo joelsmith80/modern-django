@@ -1,6 +1,8 @@
 from django.contrib.auth import login, authenticate
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Race
 from .models import League
@@ -76,9 +78,8 @@ def team_race(request,id,slug):
     }
     return render(request, 'teams/race.html',context)
 
+@login_required
 def team_add(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/thanks/')
     if request.method == 'POST':
         form = CreateTeamForm(request.POST)
         if form.is_valid():
@@ -88,18 +89,17 @@ def team_add(request):
                 user = request.user
             )
             t.save()
-            return HttpResponseRedirect('/thanks/')
+            return HttpResponseRedirect(reverse('races:team_show',args=(t.id,)))
     else:
-        form = CreateTeamForm()
+        form = CreateTeamForm()        
     return render(request, 'teams/add.html', {'form': form}) 
 
 def rider_show(request,id):
     rider = get_object_or_404(Rider,id=id)
     return render(request, 'riders/detail.html',{'rider': rider})
 
+@login_required
 def league_add(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/thanks/')        
     if request.method == 'POST':
         form = CreateLeagueForm(request.POST)
         if form.is_valid():
@@ -111,7 +111,7 @@ def league_add(request):
                 owner = request.user
             )
             l.save()
-            return HttpResponseRedirect('/thanks/')
+            return HttpResponseRedirect(reverse('races:league_show',args=(l.id,)))
     else:
         form = CreateLeagueForm()
     return render(request, 'leagues/add.html', {'form': form}) 

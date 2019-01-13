@@ -62,6 +62,7 @@ LOCAL_APPS = (
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/account/login/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
