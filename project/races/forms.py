@@ -23,13 +23,25 @@ class CreateTeamForm(ModelForm):
         model = Team
         fields = ['name']
 
-class TeamJoinLeagueForm(forms.Form):
+class TeamJoinLeagueForm(ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput())
+    league_id = forms.CharField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = League
+        fields = ['password','league_id']
 
     def clean(self):
         password = self.cleaned_data['password']
+        league_id = self.cleaned_data['league_id']
         
         if password == 'password':
-            raise forms.ValidationError(_("'password' is a terrible password"))
-        return data
+            raise forms.ValidationError(_("That's a terrible password. Try again."))
+
+        try:
+            l = League.objects.get(pk=league_id)
+        except League.DoesNotExist:
+            raise forms.ValidationError(_("Not sure how you managed this, but that league doesn't actually exist."))
+        
+            
