@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import Race
 from .models import League
@@ -62,17 +63,33 @@ def league_show(request,id):
 
 @login_required
 def team_join_league(request,id):
+    team = get_object_or_404(Team,id=id)
+    joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
+    context = {
+        'team': team,
+        'joinable_leagues': joinable_leagues
+    }
     if request.method == 'POST':
-        return render(request, 'teams/join_league.html')
-    else:
-        form = TeamJoinLeagueForm()
-        team = get_object_or_404(Team,id=id)
-        joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
+        form = TeamJoinLeagueForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'The form is valid.')
+            # Should check if league was sent
+            # Should check if league exists
+            # Should check password if the league has one
+            # Should check that there's room in the league.
+            # Should check if the league already has this team
+            # Should check if the league already has a team by this user
+            # Should check if team already belongs to another league
+        else:
+            messages.error(request, 'The form is invalid.')
         context = {
             'form': form,
             'team': team,
             'joinable_leagues': joinable_leagues
         }
+    else:
+        form = TeamJoinLeagueForm()
+        context['form'] = form
         if team.league is not None:
             return HttpResponseRedirect(reverse('races:team_show',args=(id,)))
         
@@ -128,7 +145,7 @@ def rider_show(request,id):
 @login_required
 def league_add(request):
     if request.method == 'POST':
-        form = CreateLeagueForm(request.POST)
+        form = CreateLeagueForm(request.POST,request=request)
         if form.is_valid():
             name = form.cleaned_data['name']
             is_private = form.cleaned_data['is_private']

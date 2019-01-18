@@ -12,6 +12,7 @@
             <h2 class="section-title">Available Leagues</h2>
         </header>
         <div class="section-content region">
+            {{ form.non_field_errors }}
             {% if joinable_leagues %}
                 <table>
                     <thead>
@@ -26,6 +27,7 @@
                     {% for league in joinable_leagues %}
                         <tr>
                             <form action="{% url 'races:team_join_league' team.id %}" method="post">
+                                {% csrf_token %}
                                 <td>{{ league }}</td>
                                 <td>{{ league.access_type }}</td>
                                 <td>
@@ -36,7 +38,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <input type="hidden" name="league" value="{{ league.id }}">
+                                    <input type="hidden" name="league" value="1300">
                                     <input type="submit" value="Join">
                                 </td>
                             </form>
