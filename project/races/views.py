@@ -73,6 +73,7 @@ def team_join_league(request,id):
         form = TeamJoinLeagueForm(request.POST)
         if form.is_valid():
             messages.success(request, 'The form is valid.')
+            league = form.cleaned_data['league_id']
             # Should check if league was sent
             # Should check if league exists
             # Should check password if the league has one

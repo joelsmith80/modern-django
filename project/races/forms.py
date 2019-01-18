@@ -33,15 +33,26 @@ class TeamJoinLeagueForm(ModelForm):
         fields = ['password','league_id']
 
     def clean(self):
-        password = self.cleaned_data['password']
+        
         league_id = self.cleaned_data['league_id']
         
-        if password == 'password':
-            raise forms.ValidationError(_("That's a terrible password. Try again."))
-
+        # get the league object
         try:
             l = League.objects.get(pk=league_id)
         except League.DoesNotExist:
             raise forms.ValidationError(_("Not sure how you managed this, but that league doesn't actually exist."))
+
+        # kick out for password violations
+        if l.is_private:
+            if 'password' not in self.cleaned_data:
+                    raise forms.ValidationError(_("Private leagues require a password."))
+            else:
+                password = self.cleaned_data['password']
+                if password != l.password:
+                    raise forms.ValidationError(_("That's not the right league password, bub."))
+                else:
+                    self.cleaned_data['password'] = True
+
+        
         
             
