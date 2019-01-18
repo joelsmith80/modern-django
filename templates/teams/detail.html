@@ -10,7 +10,7 @@
 {% if team.league %}
     <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
 {% else %}
-    <p>Your team won't be able to race unless you <a href="{% url 'races:league_join' %}">join a league</a>.</p>
+    <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
 {% endif %}
 
 {% if team_belongs_to_user %}

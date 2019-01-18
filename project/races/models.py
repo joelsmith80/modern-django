@@ -93,10 +93,12 @@ class League(models.Model):
         return self.name
 
     def access_type(self):
-        if self.is_private:
-            return "Private"
-        else:
-            return "Public"
+        return "Private" if self.is_private else "Public"
+
+    def has_team(self,team_id):
+        team_count = Team.objects.filter(id=team_id,league=self.id).count()
+        return True if team_count > 0 else False
+        
 
 class Team(models.Model):
 
@@ -111,6 +113,11 @@ class Team(models.Model):
 
     def __str__(self):
         return self.name
+
+    def can_enter_league(self,league):
+        if league.is_full:
+            return False
+        return True
 
 class FinalResult(models.Model):
 

@@ -20,3 +20,9 @@ class CreateTeamForm(ModelForm):
     class Meta:
         model = Team
         fields = ['name']
+
+class TeamJoinLeagueForm(ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+    class Meta:
+        model = League
+        fields = ['id','password']

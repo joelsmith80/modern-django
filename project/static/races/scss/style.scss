@@ -14,3 +14,11 @@ COMPONENTS
 ================ */
 
 @import "components/race-marquee";
+@import "components/footer";
+
+body {
+    margin: 0;
+    padding: 0 0 3rem 0; // allows room for absolutely-positioned .site-footer element
+    min-height: 100vh;
+    position: relative;
+}

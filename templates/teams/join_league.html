@@ -5,6 +5,7 @@
 {% block title %}Join a League{% endblock %}
 
 {% block content %}
+
 <section>
     <div class="wrap">
         <header class="section-header region">
@@ -17,17 +18,28 @@
                         <tr>
                             <th>League</th>
                             <th>Type</th>
-                            <th>Team to Add</th>
+                            <th>Password</th>
                             <th>Join</th>
                         </tr>
                     </thead>   
                     <tbody>
                     {% for league in joinable_leagues %}
                         <tr>
-                            <td>{{ league }}</td>
-                            <td>{{ league.access_type }}</td>
-                            <td>Team Dropdown</td>
-                            <td><input type="submit" value="Join"></td>
+                            <form action="{% url 'races:team_join_league' team.id %}" method="post">
+                                <td>{{ league }}</td>
+                                <td>{{ league.access_type }}</td>
+                                <td>
+                                    {% if league.is_private %}
+                                        {{ form.password }}
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="league" value="{{ league.id }}">
+                                    <input type="submit" value="Join">
+                                </td>
+                            </form>
                         </tr>
                     {% endfor %}
                     </tbody> 

@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import login, authenticate
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -13,6 +15,9 @@ from .models import Participation
 from .forms import CreateLeagueForm
 from .forms import CreateTeamForm
 from .forms import SignUpForm
+from .forms import TeamJoinLeagueForm
+
+logger = logging.getLogger(__name__)
 
 def home(request):
     race_list = Race.objects.filter(is_classic=1).order_by('starts')
@@ -56,17 +61,22 @@ def league_show(request,id):
     return render(request, 'leagues/detail.html',{'league': league, 'teams': teams_this_league})
 
 @login_required
-def league_join(request):
+def team_join_league(request,id):
     if request.method == 'POST':
-        something = 'something'
+        return render(request, 'teams/join_league.html')
     else:
+        form = TeamJoinLeagueForm()
+        team = get_object_or_404(Team,id=id)
         joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
-        eligible_teams = Team.objects.filter(user=request.user,league=None)
         context = {
-            'joinable_leagues': joinable_leagues,
-            'eligible_teams': eligible_teams
+            'form': form,
+            'team': team,
+            'joinable_leagues': joinable_leagues
         }
-        return render(request, 'leagues/join.html', context)
+        if team.league is not None:
+            return HttpResponseRedirect(reverse('races:team_show',args=(id,)))
+        
+    return render(request, 'teams/join_league.html',context)
 
 def teams_index(request):
     teams_list = Team.objects.order_by('name')
