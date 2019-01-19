@@ -25,12 +25,17 @@ class CreateTeamForm(ModelForm):
 
 class TeamJoinLeagueForm(ModelForm):
 
-    password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput(),required=False)
     league_id = forms.CharField(widget=forms.HiddenInput())
 
     class Meta:
         model = League
         fields = ['password','league_id']
+
+    def __init__(self, *args,**kwargs):
+        self.team = kwargs.pop('team',None)
+        self.user_id = kwargs.pop('user_id',None)
+        super(TeamJoinLeagueForm,self).__init__(*args,**kwargs)
 
     def clean(self):
         
@@ -53,6 +58,19 @@ class TeamJoinLeagueForm(ModelForm):
                 else:
                     self.cleaned_data['password'] = True
 
-        
-        
+        # fail if league is full
+        if l.is_full:
+            raise forms.ValidationError(_("Sorry, but that league is full."))
+
+        # fail is team already in league
+        if l.has_team(self.team.id):
+            raise forms.ValidationError(_("Oddly, your team is already in this league..."))
+
+        # fail if user is already in league
+        if l.has_user(self.user_id):
+            raise forms.ValidationError(_("You already have another team in this league."))
+
+        # fail if team is already in some league
+        if self.team.league is not None:
+            raise forms.ValidationError(_("Sorry, but this team is already in another league."))
             

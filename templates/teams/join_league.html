@@ -12,42 +12,49 @@
             <h2 class="section-title">Available Leagues</h2>
         </header>
         <div class="section-content region">
-            {{ form.non_field_errors }}
-            {% if joinable_leagues %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>League</th>
-                            <th>Type</th>
-                            <th>Password</th>
-                            <th>Join</th>
-                        </tr>
-                    </thead>   
-                    <tbody>
-                    {% for league in joinable_leagues %}
-                        <tr>
-                            <form action="{% url 'races:team_join_league' team.id %}" method="post">
-                                {% csrf_token %}
-                                <td>{{ league }}</td>
-                                <td>{{ league.access_type }}</td>
-                                <td>
-                                    {% if league.is_private %}
-                                        {{ form.password }}
-                                    {% else %}
-                                        n/a
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <input type="hidden" name="league_id" value="{{ league.id }}">
-                                    <input type="submit" value="Join">
-                                </td>
-                            </form>
-                        </tr>
-                    {% endfor %}
-                    </tbody> 
-                </table>
+
+            {% if team_belongs_to_user %}
+
+                {{ form.non_field_errors }}
+                {{ form.errors }}
+                {% if joinable_leagues %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>League</th>
+                                <th>Type</th>
+                                <th>Password</th>
+                                <th>Join</th>
+                            </tr>
+                        </thead>   
+                        <tbody>
+                        {% for league in joinable_leagues %}
+                            <tr>
+                                <form action="{% url 'races:team_join_league' team.id %}" method="post">
+                                    {% csrf_token %}
+                                    <td>{{ league }}</td>
+                                    <td>{{ league.access_type }}</td>
+                                    <td>
+                                        {% if league.is_private %}
+                                            {{ form.password }}
+                                        {% else %}
+                                            n/a
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="league_id" value="{{ league.id }}">
+                                        <input type="submit" value="Join">
+                                    </td>
+                                </form>
+                            </tr>
+                        {% endfor %}
+                        </tbody> 
+                    </table>
+                {% else %}
+                    <p>Sorry, but there are no leagues available to join.</p>
+                {% endif %}
             {% else %}
-                <p>Sorry, but there are no leagues available to join.</p>
+                <p>Sorry Charlie — this ain't your team.</p>
             {% endif %}
         </div>
     </div>

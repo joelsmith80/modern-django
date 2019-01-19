@@ -63,37 +63,39 @@ def league_show(request,id):
 
 @login_required
 def team_join_league(request,id):
+
+    # get basic variables
     team = get_object_or_404(Team,id=id)
+    team_belongs_to_user = True if request.user.id == team.user_id else False
     joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
     context = {
         'team': team,
-        'joinable_leagues': joinable_leagues
+        'joinable_leagues': joinable_leagues,
+        'team_belongs_to_user': team_belongs_to_user
     }
+
+    # handle POST form submission
     if request.method == 'POST':
-        form = TeamJoinLeagueForm(request.POST)
+        form = TeamJoinLeagueForm(request.POST,team=team,user_id=request.user.id)
+        context['form'] = form
         if form.is_valid():
-            messages.success(request, 'The form is valid.')
-            league = form.cleaned_data['league_id']
-            # Should check if league was sent
-            # Should check if league exists
-            # Should check password if the league has one
-            # Should check that there's room in the league.
-            # Should check if the league already has this team
-            # Should check if the league already has a team by this user
-            # Should check if team already belongs to another league
+            print("Form is valid")
+            league_id = form.cleaned_data['league_id']
+            l = League.objects.get(pk=league_id)
+            team.league = l
+            team.save()
+            return HttpResponseRedirect(reverse('races:team_show',args=(id,)))
         else:
-            messages.error(request, 'The form is invalid.')
-        context = {
-            'form': form,
-            'team': team,
-            'joinable_leagues': joinable_leagues
-        }
+            print("Form was NOT valid")
+
+    # handle GET requests for form
     else:
         form = TeamJoinLeagueForm()
         context['form'] = form
         if team.league is not None:
             return HttpResponseRedirect(reverse('races:team_show',args=(id,)))
-        
+
+    # send it off    
     return render(request, 'teams/join_league.html',context)
 
 def teams_index(request):

@@ -98,6 +98,12 @@ class League(models.Model):
     def has_team(self,team_id):
         team_count = Team.objects.filter(id=team_id,league=self.id).count()
         return True if team_count > 0 else False
+
+    def has_user(self,user_id):
+        query = Team.objects.filter(league=self.id,user=user_id).count()
+        return True if query > 0 else False
+
+
         
 
 class Team(models.Model):
