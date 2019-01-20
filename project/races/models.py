@@ -103,9 +103,6 @@ class League(models.Model):
         query = Team.objects.filter(league=self.id,user=user_id).count()
         return True if query > 0 else False
 
-
-        
-
 class Team(models.Model):
 
     class Meta:
@@ -207,5 +204,15 @@ class Roster(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     picks = models.ManyToManyField(Participation)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class SiteOption(models.Model):
+
+    class Meta:
+        db_table = "site_options"
+
+    opt_key = models.CharField(max_length=255,unique=True)
+    opt_value = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

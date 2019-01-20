@@ -12,6 +12,7 @@ from .models import League
 from .models import Team
 from .models import Rider
 from .models import Participation
+from .models import SiteOption
 
 from .forms import CreateLeagueForm
 from .forms import CreateTeamForm
@@ -68,6 +69,8 @@ def team_join_league(request,id):
     team = get_object_or_404(Team,id=id)
     team_belongs_to_user = True if request.user.id == team.user_id else False
     joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
+    teams_per_league = SiteOption.objects.only('opt_value').get(opt_key='classics_teams_per_league')
+    teams_per_league = int(teams_per_league.opt_value)
     context = {
         'team': team,
         'joinable_leagues': joinable_leagues,
@@ -76,6 +79,7 @@ def team_join_league(request,id):
 
     # handle POST form submission
     if request.method == 'POST':
+
         form = TeamJoinLeagueForm(request.POST,team=team,user_id=request.user.id)
         context['form'] = form
         if form.is_valid():
@@ -84,6 +88,11 @@ def team_join_league(request,id):
             l = League.objects.get(pk=league_id)
             team.league = l
             team.save()
+            l.refresh_from_db()
+            num_teams = l.team_set.count()
+            if num_teams >= teams_per_league:
+                l.is_full = True
+                l.save()
             return HttpResponseRedirect(reverse('races:team_show',args=(id,)))
         else:
             print("Form was NOT valid")

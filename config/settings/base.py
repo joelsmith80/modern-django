@@ -166,3 +166,5 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 REST_FRAMEWORK = {
 
 }
+
+TEAMS_PER_LEAGUE = 4

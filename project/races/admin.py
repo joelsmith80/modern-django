@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Race, Rider, Participation, Team, League, Post, Roster
+from .models import Race, Rider, Participation, Team, League, Post, Roster, SiteOption
 
 
 class ParticipationInline(admin.TabularInline):
@@ -35,6 +35,9 @@ class RiderAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title','date','race')
 
+class OptionAdmin(admin.ModelAdmin):
+    list_display = ('opt_key','opt_value')
+
 
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Participation,ParticipationAdmin)
@@ -42,3 +45,4 @@ admin.site.register(Team,TeamAdmin)
 admin.site.register(League,LeagueAdmin)
 admin.site.register(Rider,RiderAdmin)
 admin.site.register(Post,PostAdmin)
+admin.site.register(SiteOption,OptionAdmin)

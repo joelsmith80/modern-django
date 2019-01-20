@@ -6,43 +6,49 @@
 
 {% block content %}
 
-<h1>{{ team.name }}</h1>
-{% if team.league %}
-    <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
-{% else %}
-    <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
-{% endif %}
+<section>
+    <div class="wrap">
+        <div class="region">
+            <h1>{{ team.name }}</h1>
+            {% if team.league %}
+                <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
+            {% else %}
+                <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
+            {% endif %}
 
-{% if team_belongs_to_user %}
-    <p>This is your team, so we'll show you some management options.</p>
-{% else %}
-    <p>This isn't your team, so we'll display only public information.</p>
-{% endif %}
+            {% if team_belongs_to_user %}
+                <p>This is your team, so we'll show you some management options.</p>
+            {% else %}
+                <p>This isn't your team, so we'll display only public information.</p>
+            {% endif %}
 
-{% if races %}
-    <table>
-        <thead>
-            <tr>
-                <th>Race</th>
-                <th>Draft</th>
-                <th>Results</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for race in races %}
-                <tr>
-                    <td>
-                        <h2><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li></h2>
-                        <p>{{ race.starts }}</p>
-                    </td>
-                    <td><a href="#">Draft</a></td>
-                    <td><a href="#">View</a></td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>There are not yet any scheduled races.</p>
-{% endif %}
+            {% if races %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Race</th>
+                            <th>Draft</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for race in races %}
+                            <tr>
+                                <td>
+                                    <h2><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li></h2>
+                                    <p>{{ race.starts }}</p>
+                                </td>
+                                <td><a href="#">Draft</a></td>
+                                <td><a href="#">View</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>There are not yet any scheduled races.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
 
 {% endblock %}
