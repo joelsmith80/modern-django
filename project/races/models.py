@@ -1,6 +1,7 @@
 from django.conf import settings
 from django import forms
 from django.db import models
+from django.contrib.auth.hashers import make_password
 
 class Rider(models.Model):
 
@@ -81,7 +82,7 @@ class League(models.Model):
     name = models.CharField(max_length=200)
     race = models.ForeignKey(Race, blank=True, null=True, on_delete=models.CASCADE)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, default=0, on_delete=models.SET_DEFAULT)
-    password = models.CharField(max_length=32, blank=True, null=True)
+    password = models.CharField(max_length=200, blank=True, null=True)
     has_drafted = models.BooleanField(default=0)
     is_classic = models.BooleanField(default=0)
     is_private = models.BooleanField(default=0)
@@ -91,6 +92,10 @@ class League(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        super(League, self).save(*args, **kwargs)
 
     def access_type(self):
         return "Private" if self.is_private else "Public"
@@ -216,3 +221,13 @@ class SiteOption(models.Model):
     opt_value = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_option( self, key, type = int ):
+        try:
+            raw = SiteOption.objects.only('opt_value').get(opt_key=key)
+            if type is int:
+                return int(raw.opt_value)
+            else:
+                return "Some other thing"
+        except:
+            return None

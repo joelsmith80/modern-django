@@ -13,6 +13,7 @@ urlpatterns = [
     path('teams', views.teams_index, name='teams_index'),
     path('team/<int:id>/', views.team_show, name='team_show'),
     path('team/<int:id>/race/<slug:slug>/', views.team_race, name='team_race'),
+    path('team/<int:id>/race/<slug:slug>/draft', views.team_race_draft, name='team_race_draft'),
     path('team/add/', views.team_add, name='team_add'),
     path('team/<int:id>/join-league/', views.team_join_league, name='team_join_league'),
     path('rider/<int:id>/', views.rider_show, name='rider_show')

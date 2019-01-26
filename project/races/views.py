@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Race
 from .models import League
@@ -13,11 +14,13 @@ from .models import Team
 from .models import Rider
 from .models import Participation
 from .models import SiteOption
+from .models import Roster
 
 from .forms import CreateLeagueForm
 from .forms import CreateTeamForm
 from .forms import SignUpForm
 from .forms import TeamJoinLeagueForm
+from .forms import CreateRosterForm
 
 logger = logging.getLogger(__name__)
 
@@ -133,6 +136,92 @@ def team_race(request,id,slug):
         'riders': riders
     }
     return render(request, 'teams/race.html',context)
+
+@login_required
+def team_race_draft(request,id,slug):
+
+    # stuff we're going to need regardless
+    team = get_object_or_404(Team,id=id)
+    race = Race.objects.filter(slug=slug).order_by('-id')[0]
+    riders = Participation.objects.filter(race=race.id).order_by('-val')
+    team_belongs_to_user = True if request.user.id == team.user_id else False
+    try:
+        roster = Roster.objects.order_by('-val').get(race = race, team = team)
+    except ObjectDoesNotExist:
+        roster = None
+    option = SiteOption()
+    riders_per_roster = option.get_option('classics_riders_per_roster')
+    context = {
+        'team': team,
+        'race': race,
+        'riders': riders,
+        'team_belongs_to_user': team_belongs_to_user,
+        'roster': roster
+    }
+
+    # handle form submissions
+    if request.method == 'POST':
+
+        # bail if not this user's team (we also do this on the form template itself)
+        if not team_belongs_to_user:
+            return HttpResponseRedirect(reverse('races:team_show',args=(team.id,)))
+        
+        # get the picks and validate the form
+        picks = request.POST.getlist('picks',False)
+        form = CreateRosterForm(
+            request.POST, 
+            user_id = request.user.id, 
+            race_id = race.id, 
+            team_id = team.id, 
+            picks = picks,
+            riders_per_roster = riders_per_roster
+        )
+
+        # do the deed, if we have everything we need
+        if form.is_valid():
+            
+            picks = form.picks
+            
+            # handle a pre-existing roster
+            if roster:
+                r = roster;
+                r.picks.clear()
+                r.save()
+            
+            # handle a new roster
+            else:
+                r = Roster(
+                    race = race,
+                    team = team
+                )
+                r.save()
+            
+            # drop and re-add all the picks
+            for p in picks:
+                participant = Participation.objects.get(pk=p)
+                r.picks.add(participant)
+                r.save()
+
+            roster = r
+    
+    # otherwise set up the form for display
+    else:
+        form = CreateRosterForm()
+
+    # in either case, merge available and picked riders to get ordered list for display in form
+    if roster:
+        ordered = []
+        picks = roster.picks.order_by('-val').all()
+        for p in picks:
+            p.picked = True
+            ordered.append(p)
+        for r in riders:
+            if r not in picks:
+                ordered.append(r)
+        context['riders'] = ordered
+    
+    context['form'] = form
+    return render(request, 'teams/draft.html', context)
 
 @login_required
 def team_add(request):
