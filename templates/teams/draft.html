@@ -28,6 +28,24 @@
   </div>
 </section>
 
+<section class="team-mgmt-section">
+    <div class="wrap">
+        <header class="region">
+            <h1><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h1>
+            {% if team.league %}
+                <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
+            {% else %}
+                <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
+            {% endif %}
+            {% if team_belongs_to_user %}
+                <p>This is your team, so we'll show you some management options.</p>
+            {% else %}
+                <p>This isn't your team, so we'll display only public information.</p>
+            {% endif %}
+        </header>
+    </div>
+</section>
+
 <section>
   <div class="wrap">
     <header class="section-header region">

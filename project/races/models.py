@@ -127,6 +127,14 @@ class Team(models.Model):
             return False
         return True
 
+    def has_roster_for_race(self,race_id):
+        roster = Roster.objects.filter(race_id=race_id,team=self)
+        print(roster)
+        if roster:
+            return True
+        else:
+            return False
+
 class FinalResult(models.Model):
 
     class Meta:

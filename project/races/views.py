@@ -119,6 +119,10 @@ def team_show(request,id):
     team = get_object_or_404(Team,id=id)
     races = Race.objects.filter(is_classic=1).order_by('starts')
     team_belongs_to_user = True if request.user.id == team.user_id else False
+    if(team_belongs_to_user):
+        for r in races:
+            if(team.has_roster_for_race(r.id)):
+                r.has_roster = True
     context = {
         'team': team,
         'races': races,
@@ -130,10 +134,14 @@ def team_race(request,id,slug):
     team = get_object_or_404(Team,id=id)
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
     riders = Participation.objects.filter(race=race.id).order_by('bib')
+    team_belongs_to_user = True if request.user.id == team.user_id else False
+    if(team_belongs_to_user and team.has_roster_for_race(race.id)):
+        race.has_roster = True
     context = {
         'team': team,
         'race': race,
-        'riders': riders
+        'riders': riders,
+        'team_belongs_to_user': team_belongs_to_user
     }
     return render(request, 'teams/race.html',context)
 
