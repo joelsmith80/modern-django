@@ -15,6 +15,7 @@ from .models import Rider
 from .models import Participation
 from .models import SiteOption
 from .models import Roster
+from .models import FinalResult
 
 from .forms import CreateLeagueForm
 from .forms import CreateTeamForm
@@ -51,9 +52,19 @@ def signup(request):
     return render(request,'users/signup.html',{'form': form})
 
 def race_show(request,slug):
+    rows = False
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
-    participants = Participation.objects.filter(race=race.id).order_by('bib')
-    return render(request, 'races/detail.html',{'race': race, 'participants': participants})
+    results = race.has_results()
+    if(results):
+        rows = results
+    else:
+        participants = Participation.objects.filter(race=race.id).order_by('bib')
+        rows = Participation.format_for_table_rows(participants)
+    context = {
+        'race': race,
+        'rows': rows
+    }
+    return render(request, 'races/detail.html', context)
 
 def leagues_index(request):
     leagues_list = League.objects.filter(is_classic=1).order_by('name')

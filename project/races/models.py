@@ -54,6 +54,15 @@ class Race(models.Model):
     def __str__(self):
         return self.name + " (" + str(self.year) + ")"
 
+    def has_results(self):
+        results = FinalResult.objects.filter(
+            race=self,rider__participation__race=self
+        )
+        if results.count() == 0:
+            return False
+        else:
+            return FinalResult.format_for_table_rows(results)
+
 class Participation(models.Model):
 
     class Meta:
@@ -73,6 +82,19 @@ class Participation(models.Model):
 
     def __str__(self):
         return self.rider.last_name.upper() + ", " + self.rider.first_name
+
+    def format_for_table_rows(queryset):
+        print(queryset.query)
+        data = []
+        for r in queryset:
+            datum = {};
+            datum['bib'] = r.bib
+            datum['rider'] = r.rider
+            datum['team'] = r.squad
+            datum['country'] = r.rider.country
+            datum['val'] = r.val
+            data.append(datum)
+        return data
 
 class League(models.Model):
 
@@ -148,6 +170,28 @@ class FinalResult(models.Model):
 
     def __str__(self):
         return self.place
+
+    def format_for_table_rows(queryset):
+        results = queryset.values(
+            'place',
+            'rider__last_name',
+            'rider__first_name',
+            'rider__participation__val',
+            'rider__participation__bib',
+            'rider__participation__squad',
+            'rider__country'
+        ).order_by('place')
+        data = []
+        for r in results:
+            datum = {};
+            datum['place'] = r['place']
+            datum['rider'] = r['rider__last_name'] + ', ' + r['rider__first_name']
+            datum['val'] = r['rider__participation__val']
+            datum['bib'] = r['rider__participation__bib']
+            datum['team'] = r['rider__participation__squad']
+            datum['country'] = r['rider__country']
+            data.append(datum)
+        return data
 
 class Stage(models.Model):
 

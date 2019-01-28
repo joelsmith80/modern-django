@@ -34,31 +34,30 @@
       <h2 class="section-title">Riders In This Race</h2>
     </header>
     <div class="section-content region">
-      {% if participants %}
+      {% if rows %}
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th>Place</th>
               <th>Rider</th>
               <th>Prospects</th>
+              <th>Points</th>
             </tr>
           </thead>
           <tbody>
-            {% for p in participants %}
+            {% for p in rows %}
               <tr>
-                <td></td>
+                <td>{{ p.place }}</td>
                 <td>
                   <p>{{ p.rider }}</p>
-                  <p>#{{ p.bib }} {{ p.team }} - {{ p.rider.country }}</p>
+                  <p>#{{ p.bib }} {{ p.team }} - {{ p.country }}</p>
                 </td>
                 <td>{{ p.val }}</td>
+                <td>n/a</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-        <ul>
-          
-        </ul>
       {% else %}
         <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
       {% endif %}
