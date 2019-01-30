@@ -1,4 +1,4 @@
-<!-- templates/races/index.html -->
+<!-- templates/teams/race.html -->
 
 {% extends 'base.html' %}
 
@@ -56,36 +56,67 @@
 <section>
   <div class="wrap">
     <header class="section-header region">
-      <h2 class="section-title">Riders In This Race</h2>
+      <h2 class="section-title">{{ messages.table_hed }}</h2>
     </header>
     <div class="section-content region">
-      {% if riders %}
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Rider</th>
-              <th>Prospects</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for r in riders %}
-              <tr>
-                <td></td>
-                <td>
-                  <p>{{ r.rider }}</p>
-                  <p>#{{ r.bib }} {{ r.team }} - {{ r.rider.country }}</p>
-                </td>
-                <td>{{ r.val }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <ul>
+      
+      {% if race.has_results %}
+
+        <div class="race-results" data-ui="tabs">
+
+          <nav>
+            <ul>
+              <li><a href="#team-panel">Team</a></li>
+              <li><a href="#overall-panel">Overall</a></li>
+            </ul>
+          </nav>
           
-        </ul>
+          <div id="team-panel" class="panel team">
+            <h3>Team Results</h3>
+            {% if team_results in rows %}
+              {% include "teams/race-table-team-results.html" %}
+            {% else %}
+              <p class="empty-results-explanation">{{ messages.no_team_results }}</p>
+            {% endif %}
+          </div>
+          
+          <div id="overall-panel" class="panel overall">
+            <h3>Overall Results</h3>
+            {% if 'overall_results' in rows %}
+              {% include "teams/race-table-overall-results.html" %}
+            {% else %}
+              <p class="empty-results-explanation">{{ messages.no_overall_results }}</p>
+            {% endif %}
+          </div>
+
+        </div>
+      
       {% else %}
-        <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
+
+        {% if team_belongs_to_user %}
+        
+          {% if roster %}
+
+            {% include "teams/race-table-team-roster-ready.html" %}
+
+          {% else %}
+
+            {% if picks %}
+
+              {% include "teams/form-draft.html" %}
+
+            {% else %}
+            
+              <p class="empty-results-explanation">{{ messages.no_participants }}</p>
+
+            {% endif %}
+
+          {% endif %}
+
+        {% else %}
+          <p>{{ messages.no_results_for_this_team }}</p>
+        {% endif %}
+
       {% endif %}
     </div>
   </div>

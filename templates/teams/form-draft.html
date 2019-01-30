@@ -1,0 +1,33 @@
+<!-- templates/teams/form-draft.html -->
+
+{{ form.non_field_errors }}
+
+<form action="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+    <input type="hidden" name="team_id" value="{{ team.id }}">
+    <input type="hidden" name="race_id" value="{{ race.id }}">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Rider</th>
+                <th>Prospects</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rows %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="picks" value="{{ r.id }}" {% if r.picked %}checked{% endif %}>
+                </td>
+                <td>
+                    <p>{{ r.rider }}</p>
+                    <p>#{{ r.bib }} {{ r.squad }} - {{ r.rider.country }}</p>
+                </td>
+                <td>{{ r.val }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>

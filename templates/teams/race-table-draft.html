@@ -1,0 +1,26 @@
+<!-- templates/races/race-table-draft.html -->
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Rider</th>
+            <th>Prospects</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in rows %}
+        <tr>
+            <td>
+            <input type="checkbox" name="picks" value="{{ r.id }}" {% if r.picked %}checked{% endif %}>
+            </td>
+            <td>
+            <p>{{ r.rider }}</p>
+            <p>#{{ r.bib }} {{ r.squad }} - {{ r.rider.country }}</p>
+            </td>
+            <td>{{ r.val }}</td>
+        </tr>
+        {% endfor %}
+    </form>
+    </tbody>
+</table>

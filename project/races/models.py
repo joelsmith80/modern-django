@@ -150,11 +150,10 @@ class Team(models.Model):
         return True
 
     def has_roster_for_race(self,race_id):
-        roster = Roster.objects.filter(race_id=race_id,team=self)
-        print(roster)
-        if roster:
-            return True
-        else:
+        try:
+            roster = Roster.objects.get(race_id=race_id,team=self)
+            return roster
+        except:
             return False
 
 class FinalResult(models.Model):

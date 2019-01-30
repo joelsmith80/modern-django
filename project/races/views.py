@@ -142,18 +142,76 @@ def team_show(request,id):
     return render(request, 'teams/detail.html',context)
 
 def team_race(request,id,slug):
+    
     team = get_object_or_404(Team,id=id)
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
-    riders = Participation.objects.filter(race=race.id).order_by('bib')
+    results = race.has_results()
+    race.has_results = True if results else False
     team_belongs_to_user = True if request.user.id == team.user_id else False
-    if(team_belongs_to_user and team.has_roster_for_race(race.id)):
-        race.has_roster = True
-    context = {
-        'team': team,
-        'race': race,
-        'riders': riders,
-        'team_belongs_to_user': team_belongs_to_user
-    }
+    rows = {}
+    messages = {}
+    context = {}
+
+    if results:
+        team_results = None
+        if team_results:
+            rows['team_results'] = team_results
+        else:
+            messages['no_team_results'] = "Sorry, but this team doesn't have any results for this race."
+        rows['overall_results'] = results
+        messages['table_hed'] = "Race Results"
+        messages['draft_button'] = None
+
+    # else if no results
+    else:
+        
+        team_results = None
+        messages['no_overall_results'] = "Sorry, but there aren't any overall results for this race."
+        
+
+        if team_belongs_to_user:
+            
+            # look for a roster for this race
+            roster = team.has_roster_for_race(race.id)
+            
+            # if we found a roster for this race
+            if roster:
+                messages['table_hed'] = "Your Riders For This Race"
+                context['roster'] = roster
+                picks = roster.picks.order_by('-val').all()
+                rows = picks
+            
+            # else if we didn't find a roster for this race
+            else:
+
+                messages['table_hed'] = "Draft a Team For This Race"
+
+                # get any available riders for this race
+                picks = Participation.objects.filter(race=race.id).order_by('-val')
+
+                # if picks are ready
+                if picks:
+                    context['picks'] = picks
+                    rows = picks
+                
+                # else if picks aren't ready yet
+                else:
+                    messages['no_participants'] = "Sorry, but there aren't any riders signed up for this race yet. As soon as they sign in, you'll be able to stock your roster."
+        
+        # else if this is not the team owner
+        else:
+            messages['no_results_for_this_team'] = "This team doesn't have any results for this race yet."
+            
+
+    # before the race, when there ARE rosters: show the riders, and show draft button if not drafted
+    # before the race, if drafted: show the draft picks (if race not locked, show draft button still)
+    # once there are results: show the results
+
+    context['team'] = team
+    context['race'] = race
+    context['team_belongs_to_user'] = team_belongs_to_user,
+    context['rows'] = rows
+    context['messages'] = messages
     return render(request, 'teams/race.html',context)
 
 @login_required
