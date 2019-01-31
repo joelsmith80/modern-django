@@ -38,6 +38,20 @@ class PostAdmin(admin.ModelAdmin):
 class OptionAdmin(admin.ModelAdmin):
     list_display = ('opt_key','opt_value')
 
+class RosterAdmin(admin.ModelAdmin):
+    list_display = ('team','race')
+    def formfield_for_foreignkey(self,db_field,request,**kwargs):
+        if db_field.name == 'race':
+            kwargs['queryset'] = Race.objects.filter(is_classic=True).order_by('starts')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    def get_object(self, request, object_id, from_field=None):
+        self.obj = super(RosterAdmin, self).get_object(request, object_id)
+        return self.obj
+    def formfield_for_manytomany(self,db_field,request,**kwargs):
+        if db_field.name == 'picks':
+            if hasattr(self,'obj'):
+                kwargs['queryset'] = Participation.objects.filter(race=self.obj.race)
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Participation,ParticipationAdmin)
@@ -45,4 +59,5 @@ admin.site.register(Team,TeamAdmin)
 admin.site.register(League,LeagueAdmin)
 admin.site.register(Rider,RiderAdmin)
 admin.site.register(Post,PostAdmin)
+admin.site.register(Roster,RosterAdmin)
 admin.site.register(SiteOption,OptionAdmin)

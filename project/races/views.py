@@ -192,6 +192,7 @@ def team_race(request,id,slug):
                 # if picks are ready
                 if picks:
                     context['picks'] = picks
+                    context['redirect_on_success'] = "draft"
                     rows = picks
                 
                 # else if picks aren't ready yet
@@ -279,7 +280,12 @@ def team_race_draft(request,id,slug):
                 r.picks.add(participant)
                 r.save()
 
+            print(request.POST)
+            if 'redirect' in request.POST and request.POST['redirect'] == 'team':
+                return HttpResponseRedirect(reverse('races:team_race',args=(team.id,race.slug)))
+            
             roster = r
+            context['rows'] = roster
     
     # otherwise set up the form for display
     else:
@@ -296,8 +302,10 @@ def team_race_draft(request,id,slug):
             if r not in picks:
                 ordered.append(r)
         context['riders'] = ordered
+        context['rows'] = ordered
     
     context['form'] = form
+    context['redirect_on_success'] = "draft";
     return render(request, 'teams/draft.html', context)
 
 @login_required

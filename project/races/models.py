@@ -259,7 +259,7 @@ class Roster(models.Model):
     
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    picks = models.ManyToManyField(Participation)
+    picks = models.ManyToManyField(Participation, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
