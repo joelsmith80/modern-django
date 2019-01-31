@@ -16,6 +16,12 @@ class ParticipationAdmin(admin.ModelAdmin):
     list_display = ('bib','rider','race','squad','dnf','val')
     list_filter = ('race','squad')
     search_fields = ('rider__last_name',)
+    def formfield_for_foreignkey(self,db_field,request,**kwargs):
+        if db_field.name == 'race':
+            kwargs['queryset'] = Race.objects.filter(is_classic=True).order_by('starts')
+        if db_field.name == 'rider':
+            kwargs['queryset'] = Rider.objects.order_by('last_name')
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 class RosterInline(admin.TabularInline):
     model = Roster

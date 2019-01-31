@@ -45,7 +45,8 @@
                         {% for race in races %}
                             <tr>
                                 <td>
-                                    <h2><a href="{% url 'races:team_race' id=team.id slug=race.slug %}">{{ race.name }}</a></li></h2>
+                                    <h2><a href="{% url 'races:team_race' id=team.id slug=race.slug %}">{{ race.name }}</a></h2>
+                                    <p>{{ race.description }}</p>
                                     <p>{{ race.starts }}</p>
                                 </td>
                                 {% if team_belongs_to_user %}

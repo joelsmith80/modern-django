@@ -210,7 +210,7 @@ def team_race(request,id,slug):
 
     context['team'] = team
     context['race'] = race
-    context['team_belongs_to_user'] = team_belongs_to_user,
+    context['team_belongs_to_user'] = team_belongs_to_user
     context['rows'] = rows
     context['messages'] = messages
     return render(request, 'teams/race.html',context)
