@@ -1,19 +1,42 @@
+import environ 
+import os
+from django.conf import settings
 from django.contrib import admin
-
-from .models import Race, Rider, Participation, Team, League, Post, Roster, SiteOption
-
+from .models import Race, Rider, Participation, Team, League, Post, Roster, SiteOption, FinalResult
+from django.utils.translation import gettext_lazy as _
 
 class ParticipationInline(admin.TabularInline):
     model = Participation
     fields = ['rider','bib','squad','val']
     extra = 1
 
+def record_race_results( modeladmin, request, queryset ):
+    for obj in queryset:
+        path = settings.APPS_DIR
+        file = "races/data/" + obj.slug + ".csv"
+        
+        try: 
+            f = open( os.path.join( settings.APPS_DIR, file ) )
+        except FileNotFoundError:
+            modeladmin.message_user(request, "Couldn't open the file for " + obj.name)
+            continue
+        
+        results = FinalResult.add_update_from_file(f,obj)
+
+        if not results:
+            modeladmin.message_user(request, "There was a problem creating results for " + obj.name)
+            continue
+
+        Participation.add_update_scores( results )
+        
+
 class RaceAdmin(admin.ModelAdmin):
     list_display = ('name','slug','starts','is_live','is_locked')
     inlines = (ParticipationInline,)
+    actions = [record_race_results]
 
 class ParticipationAdmin(admin.ModelAdmin):
-    list_display = ('bib','rider','race','squad','dnf','val')
+    list_display = ('bib','rider','race','squad','dnf','val','classics_points')
     list_filter = ('race','squad')
     search_fields = ('rider__last_name',)
     def formfield_for_foreignkey(self,db_field,request,**kwargs):

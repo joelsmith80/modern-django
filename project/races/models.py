@@ -63,6 +63,8 @@ class Race(models.Model):
         else:
             return FinalResult.format_for_table_rows(results)
 
+    
+
 class Participation(models.Model):
 
     class Meta:
@@ -96,6 +98,17 @@ class Participation(models.Model):
             datum['val'] = r.val
             data.append(datum)
         return data
+
+    def add_update_scores( final_result_queryset ):
+        results = final_result_queryset
+        for r in results:
+            entry = Participation.objects.get( rider_id = r.rider_id, race_id = r.race_id )
+            score = Participation.calculate_score( r.place, entry.val )
+            entry.classics_points = score
+            entry.save()
+
+    def calculate_score( place, initial_value ):
+        return 42
 
 class League(models.Model):
 
@@ -161,6 +174,7 @@ class FinalResult(models.Model):
 
     class Meta:
         db_table = "final_results"
+        unique_together = ('race','place',)
 
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     place = models.PositiveSmallIntegerField(null=True,blank=True)
@@ -192,6 +206,30 @@ class FinalResult(models.Model):
             datum['country'] = r['rider__country']
             data.append(datum)
         return data
+
+    def add_update_from_file( blob, race_obj ):
+        results = []
+        for line in blob:
+            arr = line.rstrip().split(',')
+            place = arr[1]
+            rider_id = arr[2]
+            try:
+                record = FinalResult.objects.get( race_id = race_obj.id, rider_id = rider_id )
+            except:
+                record = None
+            if record:
+                record.place = place
+                record.save()
+                results.append(record)
+            else:
+                record = FinalResult(
+                    place = place,
+                    race_id = race_obj.id,
+                    rider_id = rider_id
+                )
+                record.save()
+                results.append(record)
+        return results
 
 class Stage(models.Model):
 
