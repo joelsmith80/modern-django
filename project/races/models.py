@@ -101,14 +101,31 @@ class Participation(models.Model):
 
     def add_update_scores( final_result_queryset ):
         results = final_result_queryset
+        option = SiteOption()
+        pts_max = option.get_option('points_multiplier_max_pts')
+        pts_min = option.get_option('points_multiplier_min_pts')
+        factor_max = option.get_option('points_multiplier_max_factor')
+        num_finishers = len(results)
         for r in results:
-            entry = Participation.objects.get( rider_id = r.rider_id, race_id = r.race_id )
-            score = Participation.calculate_score( r.place, entry.val )
+            try:
+                entry = Participation.objects.get( rider_id = r.rider_id, race_id = r.race_id )
+            except Exception as e:
+                print( e )
+            score = Participation.calculate_score( num_finishers, r.place, entry.val, pts_max, pts_min, factor_max )
             entry.classics_points = score
             entry.save()
 
-    def calculate_score( place, initial_value ):
-        return 42
+    def calculate_score( num_finishers, place, initial_value, pts_max, pts_min, factor_max ):
+        multi = Participation.calculate_points_multiplier( initial_value, pts_max, pts_min, factor_max )
+        place = int(place)
+        finishing_pts = (num_finishers - place) + 1
+        return finishing_pts * multi
+
+    def calculate_points_multiplier( initial_value, pts_max, pts_min, factor_max ):
+        return round( (((factor_max - 1) * ((pts_max - initial_value) / (pts_max - pts_min))) + 1), 2)        
+
+
+        
 
 class League(models.Model):
 
