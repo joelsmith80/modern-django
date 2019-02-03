@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 from .models import Race, Rider, Participation, Team, League, Post, Roster, SiteOption, FinalResult
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Sum
 
 class ParticipationInline(admin.TabularInline):
     model = Participation
@@ -11,23 +12,44 @@ class ParticipationInline(admin.TabularInline):
     extra = 1
 
 def record_race_results( modeladmin, request, queryset ):
+    
     for obj in queryset:
         path = settings.APPS_DIR
         file = "races/data/" + obj.slug + ".csv"
         
+        # try to open the file
         try: 
             f = open( os.path.join( settings.APPS_DIR, file ) )
         except FileNotFoundError:
             modeladmin.message_user(request, "Couldn't open the file for " + obj.name)
             continue
         
+        # add/update the actual race results
         results = FinalResult.add_update_from_file(f,obj)
 
+        # bail if that didn't work
         if not results:
             modeladmin.message_user(request, "There was a problem creating results for " + obj.name)
             continue
 
+        # try to add/update the riders' fantasy scores
         Participation.add_update_scores( results )
+
+        # try to add/update teams' roster points, depending on the riders' fantasy scores
+        eligible_rosters = obj.get_active_rosters()
+        if not eligible_rosters:
+            modeladmin.message_user(request, "There were no rosters to update for " + obj.name)
+            continue
+
+        for r in eligible_rosters:
+            try:
+                picks = r.picks.all()
+            except:
+                picks = None
+            if picks:
+                roster_total_pts = picks.aggregate(Sum('classics_points'))
+                r.pts = roster_total_pts['classics_points__sum']
+                r.save()
         
 
 class RaceAdmin(admin.ModelAdmin):

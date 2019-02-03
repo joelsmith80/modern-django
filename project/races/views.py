@@ -153,6 +153,7 @@ def team_race(request,id,slug):
     context = {}
 
     if results:
+        
         team_results = None
         if team_results:
             rows['team_results'] = team_results

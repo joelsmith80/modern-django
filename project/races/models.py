@@ -63,6 +63,13 @@ class Race(models.Model):
         else:
             return FinalResult.format_for_table_rows(results)
 
+    def get_active_rosters(self):
+        try:
+            rosters = Roster.objects.filter( race = self, team__league__is_classic=True, team__league__is_full=True )
+            return rosters
+        except:
+            return None
+
     
 
 class Participation(models.Model):
@@ -316,6 +323,7 @@ class Roster(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     picks = models.ManyToManyField(Participation, blank=True)
+    pts = models.PositiveSmallIntegerField(blank=True, null=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
