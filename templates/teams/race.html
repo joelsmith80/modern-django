@@ -73,7 +73,7 @@
           
           <div id="team-panel" class="panel team">
             <h3>Team Results</h3>
-            {% if team_results in rows %}
+            {% if 'team_results' in rows %}
               {% include "teams/race-table-team-results.html" %}
             {% else %}
               <p class="empty-results-explanation">{{ messages.no_team_results }}</p>

@@ -57,6 +57,7 @@ def race_show(request,slug):
     results = race.has_results()
     if(results):
         rows = results
+        print(rows)
     else:
         participants = Participation.objects.filter(race=race.id).order_by('bib')
         rows = Participation.format_for_table_rows(participants)
@@ -153,10 +154,11 @@ def team_race(request,id,slug):
     context = {}
 
     if results:
-        
-        team_results = None
+        team_results = team.has_results_for_race( race )
         if team_results:
-            rows['team_results'] = team_results
+            rows['team_results'] = team_results.get('rows')
+            if 'roster_total' in team_results:
+                context['roster_total'] = team_results['roster_total']
         else:
             messages['no_team_results'] = "Sorry, but this team doesn't have any results for this race."
         rows['overall_results'] = results

@@ -1,21 +1,31 @@
 <table>
     <thead>
         <tr>
-            <th></th>
+            <th>Place</th>
             <th>Rider</th>
             <th>Prospects</th>
+            <th>Points</th>
         </tr>
     </thead>
     <tbody>
     {% for r in rows.team_results %}
         <tr>
-            <td></td>
+            <td>{{ r.place }}</td>
             <td>
                 <p>{{ r.rider }}</p>
                 <p>#{{ r.bib }} {{ r.team }} - {{ r.rider.country }}</p>
             </td>
             <td>{{ r.val }}</td>
+            <td>{{ r.points }}</td>
         </tr>
     {% endfor %}
     </tbody>
+    <tfooter>
+        <tr>
+            <td></td>
+            <td>Total</td>
+            <td></td>
+            <td>{{ roster_total }}</td>
+        </tr>
+    </tfooter>
 </table>

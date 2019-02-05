@@ -2,6 +2,7 @@ from django.conf import settings
 from django import forms
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.db.models import Sum
 
 class Rider(models.Model):
 
@@ -94,7 +95,6 @@ class Participation(models.Model):
         return self.rider.last_name.upper() + ", " + self.rider.first_name
 
     def format_for_table_rows(queryset):
-        print(queryset.query)
         data = []
         for r in queryset:
             datum = {};
@@ -103,6 +103,7 @@ class Participation(models.Model):
             datum['team'] = r.squad
             datum['country'] = r.rider.country
             datum['val'] = r.val
+            datum['whatever'] = "You know?"
             data.append(datum)
         return data
 
@@ -189,10 +190,34 @@ class Team(models.Model):
 
     def has_roster_for_race(self,race_id):
         try:
-            roster = Roster.objects.get(race_id=race_id,team=self)
-            return roster
+            return Roster.objects.get(race_id=race_id,team=self)
         except:
             return False
+
+    def has_results_for_race( self, race ):
+        results = self.get_results_for_race( race )
+        if results: return results
+        else: return False
+
+    def get_results_for_race( self, race ):
+        roster = self.has_roster_for_race( race )
+        if not roster: return None
+        picks = roster.picks.all()
+        if not picks: return None
+        ids = []
+        for p in picks: ids.append(p.rider.id)
+        team_results = FinalResult.objects.filter(
+            race = race,
+            rider__participation__race = race,
+            rider__in = ids
+        )
+        if not team_results: return None
+        results = {}
+        results['rows'] = FinalResult.format_for_table_rows(team_results)
+        try: roster_total = team_results.aggregate(Sum('rider__participation__classics_points')).get('rider__participation__classics_points__sum')
+        except: roster_total = None
+        results['roster_total'] = roster_total
+        return results
 
 class FinalResult(models.Model):
 
@@ -206,8 +231,8 @@ class FinalResult(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.place
+    # def __str__(self):
+        # return self.place
 
     def format_for_table_rows(queryset):
         results = queryset.values(
@@ -215,6 +240,7 @@ class FinalResult(models.Model):
             'rider__last_name',
             'rider__first_name',
             'rider__participation__val',
+            'rider__participation__classics_points',
             'rider__participation__bib',
             'rider__participation__squad',
             'rider__country'
@@ -225,6 +251,7 @@ class FinalResult(models.Model):
             datum['place'] = r['place']
             datum['rider'] = r['rider__last_name'] + ', ' + r['rider__first_name']
             datum['val'] = r['rider__participation__val']
+            datum['points'] = r['rider__participation__classics_points']
             datum['bib'] = r['rider__participation__bib']
             datum['team'] = r['rider__participation__squad']
             datum['country'] = r['rider__country']
