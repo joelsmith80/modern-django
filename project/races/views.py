@@ -56,8 +56,9 @@ def race_show(request,slug):
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
     results = race.has_results()
     if(results):
-        rows = results
-        print(rows)
+        rows = {
+            'overall_results': results
+        }
     else:
         participants = Participation.objects.filter(race=race.id).order_by('bib')
         rows = Participation.format_for_table_rows(participants)

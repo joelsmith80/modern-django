@@ -1,0 +1,180 @@
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+  
+    thead {
+        display: none;
+        @include responsive(35){
+            display: table-header-group;
+        }
+    }
+  
+    th {
+        font-size: 0.9rem;
+        font-weight: 200;
+        padding: 0 0.5rem 0.25rem 0.5rem;
+        text-align: left;
+    }
+  
+    th.race-info {
+        @include responsive(35){
+            position: relative;
+            text-align: center;
+        }
+    }
+  
+    td.race-info {
+        font-size: 0.9rem;
+        @include responsive(35){
+            text-align: center;
+        }
+    }
+  
+    tr {
+        border-bottom: 1px dotted gray;
+        display: block;
+        padding-bottom: 0.5rem;
+        @include responsive(35){
+            display: table-row;
+            padding-bottom: 0;
+        }
+        .tr_title,
+        .tr_subtitle {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        .tr_title {
+            font-size: 0.925rem;
+            font-weight: 200;
+        }
+        a.tr_title {
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+  
+    td, th {
+        display: block;
+        position: relative;
+        @include responsive(35){
+            display: table-cell;
+        }
+    }
+  
+    td {
+        padding: 10px;
+        @include responsive(35){
+            padding: 1rem 0.5rem;
+        }
+    }
+  
+    td:before {
+        font-style: italic;
+        @include responsive(35){
+            display: none;
+        }
+    }
+    
+    td {
+        &.time-info:before {
+            content: 'Time: ';
+        }
+        &.gap:before {
+            content: 'Gap: ';
+        }
+        &.points:before {
+            content: 'Points: ';
+        }
+        &.stage-points:before {
+            content: 'Stage Points: ';
+        }
+        &.finishing:before {
+            content: 'Finishing Points: ';
+        }
+        &.sprint:before {
+            content: 'Sprint Points: ';
+        }
+        &.mountain:before {
+            content: 'Mountain Points: ';
+        }
+        &.combat:before {
+            content: 'Combativity Points: ';
+        }
+        &.young:before {
+            content: 'Best Young Rider Points: ';
+        }
+        &.total:before {
+            content: 'Total Points: ';
+        }
+    } 
+  
+    tr.dnf {
+        opacity: 0.5;
+    }
+  
+    th.headstone {
+        width: 8%;
+        @include responsive(25){
+            width: 5%;
+        }
+    }
+  
+    td.headstone {
+        background: yellow;
+        background: red;
+        color: white;
+        font-weight: 400;
+        position: relative;
+        text-align: center;
+        @include responsive(35){
+            &:after {
+                border-bottom: 1px dotted white;
+                bottom: -1px;
+                content: '';
+                display: block;
+                height: 0;
+                left: 0;
+                position: absolute;
+                width: 100%;
+                z-index: 1;
+            }
+        }
+    } 
+  
+    tr:last-child {
+        td.headstone:after {
+            border-bottom: 1px dotted gray;
+        }
+    }
+  
+    th.rider-info {
+        width: 45%;
+    }
+  
+    // sortable tables
+    .headerSortDown,
+    .headerSortUp {
+        font-weight: 400;
+        text-decoration: underline;
+    }
+    .js {
+        .tablesorter {
+            th:not(.no-sort) {
+                cursor: pointer;
+                &:hover {
+                    text-decoration: underline;
+                }
+                &:nth-child(1){
+                    cursor: default;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }

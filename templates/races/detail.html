@@ -35,29 +35,7 @@
     </header>
     <div class="section-content region">
       {% if rows %}
-        <table>
-          <thead>
-            <tr>
-              <th>Place</th>
-              <th>Rider</th>
-              <th>Prospects</th>
-              <th>Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for p in rows %}
-              <tr>
-                <td>{{ p.place }}</td>
-                <td>
-                  <p>{{ p.rider }}</p>
-                  <p>#{{ p.bib }} {{ p.team }} - {{ p.country }}</p>
-                </td>
-                <td>{{ p.val }}</td>
-                <td>{{ p.points }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+        {% include "teams/race-table-overall-results.html" %}
       {% else %}
         <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
       {% endif %}

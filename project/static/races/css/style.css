@@ -89,6 +89,193 @@ COMPONENTS
   padding: 1rem 0;
 }
 
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+thead {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  thead {
+    display: table-header-group;
+  }
+}
+
+th {
+  font-size: 0.9rem;
+  font-weight: 200;
+  padding: 0 0.5rem 0.25rem 0.5rem;
+  text-align: left;
+}
+
+@media only screen and (min-width: 768px) {
+  th.race-info {
+    position: relative;
+    text-align: center;
+  }
+}
+
+td.race-info {
+  font-size: 0.9rem;
+}
+@media only screen and (min-width: 768px) {
+  td.race-info {
+    text-align: center;
+  }
+}
+
+tr {
+  border-bottom: 1px dotted gray;
+  display: block;
+  padding-bottom: 0.5rem;
+}
+@media only screen and (min-width: 768px) {
+  tr {
+    display: table-row;
+    padding-bottom: 0;
+  }
+}
+tr .tr_title,
+tr .tr_subtitle {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+tr .tr_title {
+  font-size: 0.925rem;
+  font-weight: 200;
+}
+tr a.tr_title {
+  text-decoration: none;
+}
+tr a.tr_title:hover {
+  text-decoration: underline;
+}
+
+td, th {
+  display: block;
+  position: relative;
+}
+@media only screen and (min-width: 768px) {
+  td, th {
+    display: table-cell;
+  }
+}
+
+td {
+  padding: 10px;
+}
+@media only screen and (min-width: 768px) {
+  td {
+    padding: 1rem 0.5rem;
+  }
+}
+
+td:before {
+  font-style: italic;
+}
+@media only screen and (min-width: 768px) {
+  td:before {
+    display: none;
+  }
+}
+
+td.time-info:before {
+  content: 'Time: ';
+}
+td.gap:before {
+  content: 'Gap: ';
+}
+td.points:before {
+  content: 'Points: ';
+}
+td.stage-points:before {
+  content: 'Stage Points: ';
+}
+td.finishing:before {
+  content: 'Finishing Points: ';
+}
+td.sprint:before {
+  content: 'Sprint Points: ';
+}
+td.mountain:before {
+  content: 'Mountain Points: ';
+}
+td.combat:before {
+  content: 'Combativity Points: ';
+}
+td.young:before {
+  content: 'Best Young Rider Points: ';
+}
+td.total:before {
+  content: 'Total Points: ';
+}
+
+tr.dnf {
+  opacity: 0.5;
+}
+
+th.headstone {
+  width: 8%;
+}
+@media only screen and (min-width: 481px) {
+  th.headstone {
+    width: 5%;
+  }
+}
+
+td.headstone {
+  background: yellow;
+  background: red;
+  color: white;
+  font-weight: 400;
+  position: relative;
+  text-align: center;
+}
+@media only screen and (min-width: 768px) {
+  td.headstone:after {
+    border-bottom: 1px dotted white;
+    bottom: -1px;
+    content: '';
+    display: block;
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+tr:last-child td.headstone:after {
+  border-bottom: 1px dotted gray;
+}
+
+th.rider-info {
+  width: 45%;
+}
+
+.headerSortDown,
+.headerSortUp {
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.js .tablesorter th:not(.no-sort) {
+  cursor: pointer;
+}
+.js .tablesorter th:not(.no-sort):hover {
+  text-decoration: underline;
+}
+.js .tablesorter th:not(.no-sort):nth-child(1) {
+  cursor: default;
+}
+.js .tablesorter th:not(.no-sort):nth-child(1):hover {
+  text-decoration: none;
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;
