@@ -169,6 +169,24 @@ class League(models.Model):
         query = Team.objects.filter(league=self.id,user=user_id).count()
         return True if query > 0 else False
 
+    def get_undrafted_teams_for_race( self, race_id, riders_per_roster ):
+        teams = self.team_set.all()
+        if not teams: return None
+        print(teams)
+        results = []
+        for t in teams:
+            roster = t.has_roster_for_race( race_id )
+            if roster:
+                picks = roster.picks.all()
+                if not picks:
+                    results.append(t)
+                elif len(picks) > riders_per_roster:
+                    results.append(t)
+            else:
+                results.append(t)
+        return results
+            
+
 class Team(models.Model):
 
     class Meta:
@@ -189,10 +207,13 @@ class Team(models.Model):
         return True
 
     def has_roster_for_race(self,race_id):
-        try:
-            return Roster.objects.get(race_id=race_id,team=self)
-        except:
-            return False
+        roster = self.get_roster_for_race( race_id )
+        if roster: return roster
+        else: return None
+
+    def get_roster_for_race( self, race_id ):
+        try: return Roster.objects.get( race_id=race_id, team=self )
+        except: return None
 
     def has_results_for_race( self, race ):
         results = self.get_results_for_race( race )

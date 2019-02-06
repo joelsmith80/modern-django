@@ -5,6 +5,7 @@ from django.contrib import admin
 from .models import Race, Rider, Participation, Team, League, Post, Roster, SiteOption, FinalResult
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Sum
+import random
 
 class ParticipationInline(admin.TabularInline):
     model = Participation
@@ -50,12 +51,40 @@ def record_race_results( modeladmin, request, queryset ):
                 roster_total_pts = picks.aggregate(Sum('classics_points'))
                 r.pts = roster_total_pts['classics_points__sum']
                 r.save()
-        
+
+def autodraft_for_race( modeladmin, request, queryset ):
+    for obj in queryset:
+        option = SiteOption()
+        riders_per_roster = option.get_option('classics_riders_per_roster')
+        teams_per_league = option.get_option('classics_teams_per_league')
+        leagues_in_play = League.objects.filter(is_full=True, is_classic=True)
+        riders = obj.participation_set.all()
+        num_riders = len(riders)
+        if not leagues_in_play: return None
+        for l in leagues_in_play:
+            eligible_teams = l.get_undrafted_teams_for_race( obj.id, riders_per_roster )
+            if eligible_teams:
+                for t in eligible_teams:
+                    roster = t.has_roster_for_race( obj.id )
+                    if not roster:
+                        roster = Roster()
+                        roster.race = obj
+                        roster.team = t
+                        roster.save()
+                    randos = []
+                    for x in range(int(riders_per_roster)):
+                        randos.append(random.randint(0,int(num_riders-1)))
+                    for r in randos:
+                        pick_id = riders[r].id
+                        pick = Participation.objects.get(pk=pick_id)
+                        roster.picks.add(pick)
+                        roster.save()
+
 
 class RaceAdmin(admin.ModelAdmin):
     list_display = ('name','slug','starts','is_live','is_locked')
     inlines = (ParticipationInline,)
-    actions = [record_race_results]
+    actions = [record_race_results,autodraft_for_race]
 
 class ParticipationAdmin(admin.ModelAdmin):
     list_display = ('bib','rider','race','squad','dnf','val','classics_points')
