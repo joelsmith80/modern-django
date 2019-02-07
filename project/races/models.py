@@ -172,7 +172,6 @@ class League(models.Model):
     def get_undrafted_teams_for_race( self, race_id, riders_per_roster ):
         teams = self.team_set.all()
         if not teams: return None
-        print(teams)
         results = []
         for t in teams:
             roster = t.has_roster_for_race( race_id )
