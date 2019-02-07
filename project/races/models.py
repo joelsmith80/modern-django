@@ -280,27 +280,22 @@ class FinalResult(models.Model):
 
     def add_update_from_file( blob, race_obj ):
         results = []
+        frs = FinalResult.objects.filter( race = race_obj).delete()
         for line in blob:
             arr = line.rstrip().split(',')
             place = arr[1]
-            rider_id = arr[2]
-            try:
-                record = FinalResult.objects.get( race_id = race_obj.id, rider_id = rider_id )
-            except:
-                record = None
-            if record:
-                record.place = place
-                record.save()
-                results.append(record)
-            else:
-                record = FinalResult(
-                    place = place,
-                    race_id = race_obj.id,
-                    rider_id = rider_id
-                )
-                record.save()
-                results.append(record)
+            bib = arr[2]
+            rider_id = race_obj.participation_set.values('rider_id').get( bib = bib )
+            rider_id = int(rider_id['rider_id'])
+            record = FinalResult(
+                place = place,
+                race_id = race_obj.id,
+                rider_id = rider_id
+            )
+            record.save()
+            results.append(record)
         return results
+            
 
 class Stage(models.Model):
 
