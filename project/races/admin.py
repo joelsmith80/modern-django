@@ -88,8 +88,11 @@ class RaceAdmin(admin.ModelAdmin):
 
 class ParticipationAdmin(admin.ModelAdmin):
     list_display = ('bib','rider','race','squad','dnf','val','classics_points')
+    list_display_links = ('rider',)
     list_filter = ('race','squad')
     search_fields = ('rider__last_name',)
+    ordering = ['-id']
+
     def formfield_for_foreignkey(self,db_field,request,**kwargs):
         if db_field.name == 'race':
             kwargs['queryset'] = Race.objects.filter(is_classic=True).order_by('starts')
@@ -102,11 +105,15 @@ class RosterInline(admin.TabularInline):
     extra = 1
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ('name','user','league')
+    list_display = ('id','name','user','league')
+    list_display_links = ('name',)
     inlines = (RosterInline,)
+    ordering = ['-id']
 
 class LeagueAdmin(admin.ModelAdmin):
-    list_display = ('name','id','owner','is_classic','is_private')
+    list_display = ('id','name','owner','is_classic','is_private','is_full')
+    list_display_links = ('name',)
+    ordering = ['id']
 
 class RiderAdmin(admin.ModelAdmin):
     list_display = ('full_name','id','country')
@@ -116,10 +123,14 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title','date','race')
 
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ('opt_key','opt_value')
+    list_display = ('id','opt_key','opt_value')
+    list_display_links = ('opt_key',)
+    ordering = ['opt_key']
 
 class RosterAdmin(admin.ModelAdmin):
-    list_display = ('team','race')
+    list_display = ('id','team','race','pts')
+    list_display_links = ('team',)
+    ordering = ['race','team']
     def formfield_for_foreignkey(self,db_field,request,**kwargs):
         if db_field.name == 'race':
             kwargs['queryset'] = Race.objects.filter(is_classic=True).order_by('starts')
@@ -133,6 +144,13 @@ class RosterAdmin(admin.ModelAdmin):
                 kwargs['queryset'] = Participation.objects.filter(race=self.obj.race)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
+class FinalResultAdmin(admin.ModelAdmin):
+
+    list_display = ('id','place','rider','race')
+    list_display_links = ('place','rider')
+    search_fields = ('rider',)
+    ordering = ['-race','place']
+
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Participation,ParticipationAdmin)
 admin.site.register(Team,TeamAdmin)
@@ -141,3 +159,4 @@ admin.site.register(Rider,RiderAdmin)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Roster,RosterAdmin)
 admin.site.register(SiteOption,OptionAdmin)
+admin.site.register(FinalResult,FinalResultAdmin)
