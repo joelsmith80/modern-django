@@ -82,7 +82,8 @@ def autodraft_for_race( modeladmin, request, queryset ):
 
 
 class RaceAdmin(admin.ModelAdmin):
-    list_display = ('name','slug','starts','is_live','is_locked')
+    list_display = ('id','name','slug','starts','is_live','is_locked')
+    list_display_links = ('name',)
     inlines = (ParticipationInline,)
     actions = [record_race_results,autodraft_for_race]
 
@@ -117,7 +118,7 @@ class LeagueAdmin(admin.ModelAdmin):
 
 class RiderAdmin(admin.ModelAdmin):
     list_display = ('full_name','id','country')
-    search_fields = ('last_name',)
+    search_fields = ('last_name','first_name','id')
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title','date','race')

@@ -103,7 +103,6 @@ class Participation(models.Model):
             datum['team'] = r.squad
             datum['country'] = r.rider.country
             datum['val'] = r.val
-            datum['whatever'] = "You know?"
             data.append(datum)
         return data
 
