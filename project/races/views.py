@@ -59,6 +59,9 @@ def race_show(request,slug):
         rows = {
             'overall_results': results
         }
+        dnfs = Participation.objects.filter(race=race.id,dnf=1).order_by('bib')
+        formatted_dnfs = Participation.format_for_table_rows(dnfs)
+        rows['dnf'] = formatted_dnfs
     else:
         participants = Participation.objects.filter(race=race.id).order_by('bib')
         formatted = Participation.format_for_table_rows(participants)

@@ -131,7 +131,19 @@ class Participation(models.Model):
     def calculate_points_multiplier( initial_value, pts_max, pts_min, factor_max ):
         return round( (((factor_max - 1) * ((pts_max - initial_value) / (pts_max - pts_min))) + 1), 2)        
 
-
+    def mark_dnf( final_result_queryset, race_obj ):
+        results = final_result_queryset
+        ids_of_riders_who_finished = []
+        for r in results:
+            ids_of_riders_who_finished.append(r.rider_id)
+        all_participants = Participation.objects.filter( race = race_obj )
+        if all_participants:
+            for p in all_participants:
+                if p.rider_id not in ids_of_riders_who_finished:
+                    p.dnf = 1
+                else:
+                    p.dnf = None
+                p.save()
         
 
 class League(models.Model):

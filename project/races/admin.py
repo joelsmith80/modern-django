@@ -36,6 +36,8 @@ def record_race_results( modeladmin, request, queryset ):
         # try to add/update the riders' fantasy scores
         Participation.add_update_scores( results )
 
+        Participation.mark_dnf( results, obj )
+
         # try to add/update teams' roster points, depending on the riders' fantasy scores
         eligible_rosters = obj.get_active_rosters()
         if not eligible_rosters:
