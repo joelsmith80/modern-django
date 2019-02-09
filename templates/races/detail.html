@@ -35,7 +35,28 @@
     </header>
     <div class="section-content region">
       {% if rows %}
-        {% include "teams/race-table-overall-results.html" %}
+      <table>
+        <thead>
+            <tr>
+                <th>Place</th>
+                <th>Rider</th>
+                <th>Prospects</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% if 'finishers' in rows %}
+            {% for r in rows.finishers %}
+              {% include "components/results-table-row.html" with status="" %}
+            {% endfor %}
+          {% endif %}
+          {% if 'dnf' in rows %}
+            {% for r in rows.dnf %}
+              {% include "components/results-table-row.html" with status="dnf" %}
+            {% endfor %}
+          {% endif %}
+        </tbody>
+      </table>
       {% else %}
         <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
       {% endif %}

@@ -73,8 +73,27 @@
           
           <div id="team-panel" class="panel team">
             <h3>Team Results</h3>
-            {% if 'team_results' in rows %}
-              {% include "teams/race-table-team-results.html" %}
+            {% if 'team_finishers' in rows %}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Place</th>
+                    <th>Rider</th>
+                    <th>Prospects</th>
+                    <th>Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for r in rows.team_finishers %}
+                    {% include "components/results-table-row.html" with status="" %}
+                  {% endfor %}
+                  {% if 'team_dnf' in rows %}
+                    {% for r in rows.team_dnf %}
+                      {% include "components/results-table-row.html" with status="dnf" %}
+                    {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
             {% else %}
               <p class="empty-results-explanation">{{ messages.no_team_results }}</p>
             {% endif %}
@@ -82,8 +101,27 @@
           
           <div id="overall-panel" class="panel overall">
             <h3>Overall Results</h3>
-            {% if 'overall_results' in rows %}
-              {% include "teams/race-table-overall-results.html" %}
+            {% if 'race_finishers' in rows %}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Place</th>
+                    <th>Rider</th>
+                    <th>Prospects</th>
+                    <th>Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for r in rows.race_finishers %}
+                    {% include "components/results-table-row.html" with status="" %}
+                  {% endfor %}
+                  {% if 'race_dnf' in rows %}
+                    {% for r in rows.race_dnf %}
+                      {% include "components/results-table-row.html" with status="dnf" %}
+                    {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
             {% else %}
               <p class="empty-results-explanation">{{ messages.no_overall_results }}</p>
             {% endif %}

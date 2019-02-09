@@ -57,11 +57,10 @@ def race_show(request,slug):
     results = race.has_results()
     if results:
         rows = {
-            'overall_results': results
+            'finishers': results.get('finishers')
         }
-        dnfs = Participation.objects.filter(race=race.id,dnf=1).order_by('bib')
-        formatted_dnfs = Participation.format_for_table_rows(dnfs)
-        rows['dnf'] = formatted_dnfs
+        if 'dnf' in results:
+            rows['dnf'] = results.get('dnf')
     else:
         participants = Participation.objects.filter(race=race.id).order_by('bib')
         formatted = Participation.format_for_table_rows(participants)
@@ -163,12 +162,18 @@ def team_race(request,id,slug):
     if results:
         team_results = team.has_results_for_race( race )
         if team_results:
-            rows['team_results'] = team_results.get('rows')
+            if 'finishers' in team_results:
+                rows['team_finishers'] = team_results.get('finishers')
+            if 'dnf' in team_results:
+                rows['team_dnf'] = team_results.get('dnf')
             if 'roster_total' in team_results:
                 context['roster_total'] = team_results['roster_total']
         else:
             messages['no_team_results'] = "Sorry, but this team doesn't have any results for this race."
-        rows['overall_results'] = results
+        if 'finishers' in results:
+            rows['race_finishers'] = results.get('finishers')
+        if 'dnf' in results:
+            rows['race_dnf'] = results.get('dnf')
         messages['table_hed'] = "Race Results"
         messages['draft_button'] = None
 

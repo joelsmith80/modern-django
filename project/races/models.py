@@ -56,6 +56,16 @@ class Race(models.Model):
         return self.name + " (" + str(self.year) + ")"
 
     def has_results(self):
+        results = {}
+        finishers = self.get_finishers()
+        if finishers:
+            results['finishers'] = finishers
+            non_finishers = self.get_dnf()
+            if non_finishers:
+                results['dnf'] = non_finishers
+        return results
+
+    def get_finishers( self ):
         results = FinalResult.objects.filter(
             race=self,rider__participation__race=self
         )
@@ -63,6 +73,17 @@ class Race(models.Model):
             return False
         else:
             return FinalResult.format_for_table_rows(results)
+
+    def get_dnf( self ):
+        results = Participation.objects.filter(race=self,dnf=1).order_by('bib')
+        if results: return Participation.format_for_table_rows(results)
+        else: return None
+
+    def get_participants(self):
+        return Participation.objects.filter( race=self ).order_by('bib') 
+        
+        
+
 
     def get_active_rosters(self):
         try:
@@ -231,23 +252,47 @@ class Team(models.Model):
         else: return False
 
     def get_results_for_race( self, race ):
+
+        # get roster; bail if it doesn't exist
         roster = self.has_roster_for_race( race )
         if not roster: return None
+
+        # get the picks from the roster; bail if there aren't any
         picks = roster.picks.all()
         if not picks: return None
+
+        # create a list of just the pick ids
         ids = []
         for p in picks: ids.append(p.rider.id)
+
+        # search for FinalResults that match the pick ids; bail if none
         team_results = FinalResult.objects.filter(
             race = race,
             rider__participation__race = race,
             rider__in = ids
         )
         if not team_results: return None
+
+        # stuff the return object with the results
         results = {}
-        results['rows'] = FinalResult.format_for_table_rows(team_results)
+        results['finishers'] = FinalResult.format_for_table_rows(team_results)
+
+        # try to calculate the team's total score; add it to return object
         try: roster_total = team_results.aggregate(Sum('rider__participation__classics_points')).get('rider__participation__classics_points__sum')
         except: roster_total = None
         results['roster_total'] = roster_total
+
+        # return non-finishers by comparing picks with list of finishers
+        finisher_ids = []
+        for f in team_results:
+            finisher_ids.append(f.rider_id)
+        dnf = []
+        for p in picks:
+            if p.rider.id not in finisher_ids:
+                dnf.append(p)
+        if dnf:
+            dnf = Participation.format_for_table_rows(dnf)
+            results['dnf'] = dnf;
         return results
 
 class FinalResult(models.Model):
@@ -268,6 +313,7 @@ class FinalResult(models.Model):
     def format_for_table_rows(queryset):
         results = queryset.values(
             'place',
+            'rider__id',
             'rider__last_name',
             'rider__first_name',
             'rider__participation__val',
@@ -280,6 +326,7 @@ class FinalResult(models.Model):
         for r in results:
             datum = {};
             datum['place'] = r['place']
+            datum['id'] = r['rider__id']
             datum['rider'] = r['rider__last_name'] + ', ' + r['rider__first_name']
             datum['val'] = r['rider__participation__val']
             datum['points'] = r['rider__participation__classics_points']
