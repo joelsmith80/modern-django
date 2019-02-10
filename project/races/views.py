@@ -80,8 +80,13 @@ def leagues_index(request):
 
 def league_show(request,id):
     league = get_object_or_404(League,id=id)
-    teams_this_league = Team.objects.filter(league=id).order_by('name')
-    return render(request, 'leagues/detail.html',{'league': league, 'teams': teams_this_league})
+    teams = league.get_teams()
+    league_belongs_to_user = True if request.user.id == league.owner_id else False
+    context = {
+        'league': league,
+        'teams': teams
+    }
+    return render(request, 'leagues/detail.html',context)
 
 @login_required
 def team_join_league(request,id):

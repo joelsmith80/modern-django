@@ -6,18 +6,50 @@
 
 {% block content %}
 
-<h1>{{ league.name }}</h1>
+<section>
+  <div class="wrap">
+    <header class="section-header region t-9 d-9 w-9">
+      <h1>{{ league.name }}</h1>
+    </header>
+  </div>
+</section>
 
-{% if teams %}
-  <ul>
-    {% for team in teams %}
-      <li>
-        <h2><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></li></h2>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>There are no teams in this league yet.</p>
-{% endif %}
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h2 class="section-title">Teams</h2>
+    </header>
+    <div class="section-content region">
+      {% if teams %}
+        <table>
+          <thead>
+            <tr>
+              <th>Place</th>
+              <th>Team</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for team in teams %}
+              <tr>
+                  <td>{{ team.place }}</td>
+                  <td>
+                      <h3>
+                          <a href="{% url 'races:team_show' team.id %}" class="tr_title">{{ team.name }}{% if team.id == league.owner_id %}*{% endif %}</a>
+                          <span class="tr_subtitle">User: {{ team.user.username }}</span>
+                      </h3>
+                  </td>
+                  <td>{{ team.points }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <small>* League commissioner</small>
+      {% else %}
+        <p>There are no teams in this league yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
 
 {% endblock %}

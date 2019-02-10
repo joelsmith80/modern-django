@@ -114,7 +114,7 @@ class TeamAdmin(admin.ModelAdmin):
     ordering = ['-id']
 
 class LeagueAdmin(admin.ModelAdmin):
-    list_display = ('id','name','owner','is_classic','is_private','is_full')
+    list_display = ('id','name','owner','is_classic','is_private','is_full','get_teams_count')
     list_display_links = ('name',)
     ordering = ['id']
 

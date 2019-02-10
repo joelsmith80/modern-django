@@ -3,6 +3,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.db.models import Sum
+from .helpers import *
 
 class Rider(models.Model):
 
@@ -188,6 +189,9 @@ class League(models.Model):
 
     def save(self, *args, **kwargs):
         self.password = make_password(self.password)
+        full = self.should_be_full()
+        if full: self.is_full = True
+        else: self.is_full = False
         super(League, self).save(*args, **kwargs)
 
     def access_type(self):
@@ -216,6 +220,36 @@ class League(models.Model):
             else:
                 results.append(t)
         return results
+
+    def should_be_full(self):
+        teams_per_league = get_option('classics_teams_per_league')
+        num_teams = self.get_teams_count()
+        if num_teams == teams_per_league: return True
+        else: return False
+
+    def get_teams(self):
+        teams = Team.objects.filter( league=self )
+        if not teams: return None
+        for t in teams:
+            t.points = t.get_season_total()
+        teams.order_by('-points','name')
+        return self.get_place_order(teams)
+
+    def get_teams_count(self):
+        return len(self.team_set.all())
+    get_teams_count.short_description = "Teams"
+
+    def get_place_order( self, queryset ):
+        i = 1
+        hi_score = queryset[0].points
+        for team in queryset:
+            if team.points != hi_score:
+                i = i + 1
+            team.place = i
+            hi_score = team.points
+        return queryset
+
+
             
 
 class Team(models.Model):
@@ -293,6 +327,22 @@ class Team(models.Model):
         if dnf:
             dnf = Participation.format_for_table_rows(dnf)
             results['dnf'] = dnf;
+        return results
+
+    def get_season_total( self ):
+        season_total = 0
+        all_rosters = self.get_all_rosters()
+        try:    
+            season_total = all_rosters.aggregate(Sum('pts')).get('pts__sum')
+            if not season_total: season_total = 0
+        except: season_total = 0
+        return int(season_total)
+
+    def get_all_rosters( self ):
+        return Roster.objects.filter( team = self )
+
+    def get_all_picks( self ):
+        results = Participation.objects.filter( roster__team=self )
         return results
 
 class FinalResult(models.Model):
