@@ -1,0 +1,392 @@
+
+$stanPad: 1rem;
+$flexGridMobileMargin: 0.5rem;
+$flexGridMobileMargin: ($stanPad / 2);
+$flexGridDesktopMargin: ($flexGridMobileMargin * 3);
+$flexGridDesktopMargin: ($stanPad / 2);
+
+// selects all items in the last row of a grid, for a grid with a given number of columns
+@mixin flatBottom($x){
+    > *:nth-child(#{$x}n+1):nth-last-child(-n+#{$x}),
+    > *:nth-child(#{$x}n+1):nth-last-child(-n+#{$x}) ~ li {
+       margin-bottom: 0;
+    }
+}
+
+ul.flexgrid {
+    padding: 0;
+    &.m1-two,
+    &.m2-two,
+    &.m2-three {
+        @include responsive(12){
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -$flexGridMobileMargin;
+            margin-left: -$flexGridMobileMargin;
+            > * {
+                margin-right: $flexGridMobileMargin;
+                margin-left: $flexGridMobileMargin;
+            }
+            // fallback for browsers that don't support flexbox
+            @supports not(display: flex){
+                > * {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+    &.m1-two {
+        @include responsive(1){
+            > * {
+                width: 46%;
+                width: calc(50% - #{($flexGridMobileMargin * 2)});
+            }
+            @include flatBottom(2);
+        }
+    }
+    &.m1-three {
+        @include responsive(1){
+            > * {
+                width: 27%;
+                width: calc(33.33% - #{($flexGridMobileMargin * 2)});
+            }
+            @include flatBottom(3);
+        }
+    }
+    &.m2-two {
+        @include responsive(2){
+            > * {
+                width: 46%;
+                width: calc(50% - #{($flexGridMobileMargin * 2)});
+            }
+            @include flatBottom(2);
+        }
+    }
+    &.m2-three {
+        @include responsive(2){
+            > * {
+                width: 27%;
+                width: calc(33.33% - #{($flexGridMobileMargin * 2)});
+            }
+            @include flatBottom(3);
+        }
+    }
+    &.t-two,
+    &.t-three,
+    &.t-four,
+    &.t-five {
+        @include responsive(3){
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -$flexGridDesktopMargin;
+            margin-left: -$flexGridDesktopMargin;
+            > * {
+                margin-right: $flexGridDesktopMargin;
+                margin-left: $flexGridDesktopMargin;
+            }
+            // fallback for browsers that don't support flexbox
+            @supports not(display: flex){
+                > * {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+    &.t-two {
+        @include responsive(3){
+            > * {
+                width: 44%;
+                width: calc(50% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(2);
+        }
+    }
+    &.t-three {
+        @include responsive(3){
+            > * {
+                width: 27%;
+                width: calc(33.33% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(3);
+        }
+    }
+    &.t-four {
+        @include responsive(3){
+            > * {
+                width: 19%;
+                width: calc(25% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(4);
+        }
+    }
+    &.t-five {
+        @include responsive(3){
+            > * {
+                width: 14%;
+                width: calc(20% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(5);
+        }
+    }
+    &.d-two,
+    &.d-three,
+    &.d-four,
+    &.d-five,
+    &.d-six {
+        @include responsive(4){
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -$flexGridDesktopMargin;
+            margin-left: -$flexGridDesktopMargin;
+            > * {
+                margin-right: $flexGridDesktopMargin;
+                margin-left: $flexGridDesktopMargin;
+            }
+            // fallback for browsers that don't support flexbox
+            @supports not(display: flex){
+                > * {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+    &.d-two {
+        @include responsive(4){
+            > * {
+                width: 44%;
+                width: calc(50% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(2);
+        }
+    }
+    &.d-three {
+        @include responsive(4){
+            > * {
+                width: 27%;
+                width: calc(33.33% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(3);
+        }
+    }
+    &.d-four {
+        @include responsive(4){
+            > * {
+                width: 19%;
+                width: calc(25% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(4);
+        }
+    }
+    &.d-five {
+        @include responsive(4){
+            > * {
+                width: 14%;
+                width: calc(20% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(5);
+        }
+    }
+    &.d-six {
+        @include responsive(4){
+            > * {
+                width: 12%;
+                width: calc(16.667% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(6);
+        }
+    }
+    &.w-two,
+    &.w-three,
+    &.w-four,
+    &.w-five,
+    &.w-six {
+        @include responsive(5){
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -$flexGridDesktopMargin;
+            margin-left: -$flexGridDesktopMargin;
+            > * {
+                margin-right: $flexGridDesktopMargin;
+                margin-left: $flexGridDesktopMargin;
+            }
+            // fallback for browsers that don't support flexbox
+            @supports not(display: flex){
+                > * {
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+    &.w-two {
+        @include responsive(5){
+            > * {
+                width: 44%;
+                width: calc(50% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(2);
+        }
+    }
+    &.w-three {
+        @include responsive(5){
+            > * {
+                width: 27%;
+                width: calc(33.33% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(3);
+        }
+    }
+    &.w-four {
+        @include responsive(5){
+            > * {
+                width: 19%;
+                width: calc(25% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(4);
+        }
+    }
+    &.w-five {
+        @include responsive(5){
+            > * {
+                width: 14%;
+                width: calc(20% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(5);
+        }
+    }
+    &.w-six {
+        @include responsive(5){
+            > * {
+                width: 12%;
+                width: calc(16.667% - #{($flexGridDesktopMargin * 2)});
+            }
+            @include flatBottom(6);
+        }
+    }
+}
+
+ul.equal {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+// ============================
+// LAYER ON CSS:GRID STYLES
+// ============================
+
+ul.flexgrid {
+  @supports (display: grid){
+    display: grid;
+    grid-gap: $stanPad;
+    hyphens: auto;
+    margin: 0 !important;
+    > * {
+      margin: 0;
+      width: 100% !important;
+    }
+    @include responsive(1){
+      &.m1-two {
+        grid-template-columns: 1fr 1fr;
+      }
+      &.m1-three {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      &.m1-four {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      &.m1-two,
+      &.m1-three,
+      &.m1-four {
+        display: grid;
+        > * {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    @include responsive(2){
+      &.m2-two {
+        grid-template-columns: 1fr 1fr;
+      }
+      &.m2-three {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      &.m2-four {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      &.m2-two,
+      &.m2-three,
+      &.m2-four {
+        display: grid;
+        > * {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    @include responsive(3){
+      &.t-two {
+        grid-template-columns: 1fr 1fr;
+      }
+      &.t-three {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      &.t-four {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      &.t-two,
+      &.t-three,
+      &.t-four {
+        display: grid;
+        > * {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    @include responsive(4){
+      &.d-two {
+        grid-template-columns: 1fr 1fr;
+      }
+      &.d-three {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      &.d-four {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      &.d-two,
+      &.d-three,
+      &.d-four {
+        display: grid;
+        > * {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+    }
+    @include responsive(5){
+      &.w-two {
+        grid-template-columns: 1fr 1fr;
+      }
+      &.w-three {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      &.w-four {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+      }
+      &.w-two,
+      &.w-three,
+      &.w-four {
+        display: grid;
+        > * {
+          margin-left: 0;
+          margin-right: 0;
+          width: 100%;
+        }
+      }
+    }    
+  }
+}

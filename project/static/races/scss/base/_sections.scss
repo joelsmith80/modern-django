@@ -1,0 +1,8 @@
+main {
+    > section {
+        padding: 1rem 0;
+        @include responsive(35){
+            padding: 3rem 0;
+        }
+    }
+}

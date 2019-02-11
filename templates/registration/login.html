@@ -6,11 +6,19 @@
 
 {% block content %}
 
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h1>Log In</h1>
+    </header>
+    <div class="section-content region">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

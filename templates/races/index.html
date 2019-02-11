@@ -9,22 +9,51 @@
 <section>
   <div class="wrap">
     <header class="section-header region">
-      <h2 class="section-title">My Team(s)</h2>
+      <h1>Welcome to the Race</h1>
+      {% if not user.is_authenticated %}
+        <p>This is maybe 20 words giving a quick sense of what this is all about. Think of it as an advertising slogan.</p>
+      {% endif %}
     </header>
-    <div class="section-content region">  
-      {% if team_list %}
-        <ul>
-          {% for team in team_list %}
-            <li>
-              <h3><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h3>
-            </li>
-          {% endfor %}
-        </ul>
-        <p><a href="{% url 'races:team_add' %}">Create another</a></p>
+    <div class="section-content region">
+      {% if user.is_authenticated %}
+        {% if team_list %}
+          <ul>
+            {% for team in team_list %}
+              <li><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></li>
+            {% endfor %}
+          </ul>
+          <p><a href="{% url 'races:team_add' %}" class="btn">Create another</a></p>
+        {% else %}
+          <p>You don't have any teams yet. <a href="{% url 'races:team_add' %}" class="btn">Go add one.</a></p>
+        {% endif %}
       {% else %}
-        <p>You don't have any teams yet. <a href="{% url 'races:team_add' %}">Go add one.</a></p>
+        <ul>
+          <li><a href="{% url 'login' %}" class="btn">Log In</a></li>
+          <li><a href="{% url 'races:signup' %}" class="btn">Sign Up</a></li>
+        </ul>
       {% endif %}
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <header class="section-header region">
+      <h2 class="section-title">How It Works</h2>
+    </header>
+    <div class="section-content region t-8 d-8 w-8">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur leo lorem, fermentum vitae magna non, sagittis efficitur velit. Cras sit amet orci eget diam mollis porta non sed metus. Nam pretium sollicitudin luctus. Sed rutrum libero magna, eget rutrum dolor luctus eget. Nunc non tincidunt orci, eu pharetra lacus. Nunc eu nisl eget ex elementum fermentum vel nec justo. Praesent vestibulum sem ut posuere ultrices. Mauris sed enim a dui vehicula ornare volutpat mattis turpis. Nunc felis nunc, tristique ac tellus elementum, gravida cursus mi. Nullam quis libero suscipit sapien euismod iaculis in vitae tortor. Maecenas libero lacus, tempus nec risus vitae, rutrum ullamcorper diam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas id sem ut libero tristique dignissim.</p>
+      <p>Donec felis nibh, eleifend non lacus vel, luctus ultricies ex. Vestibulum euismod dictum nunc, nec rutrum erat auctor quis. Mauris finibus justo quam, vel fermentum odio varius facilisis. Quisque sagittis ultrices eros, id tristique sem porta in. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Quisque vehicula enim vitae ornare maximus. Vestibulum aliquet quam sed nisi commodo, sit amet aliquet risus sagittis. Suspendisse potenti. Maecenas quis purus feugiat, luctus neque in, malesuada nunc.</p>
+    </div>
+    <aside class="section-content region t-4 d-4 w-4">
+        <h3>Tips</h3>
+        <ul>
+          <li><a href="#">How to do this</a></li>
+          <li><a href="#">How to do this</a></li>
+          <li><a href="#">How to do this</a></li>
+          <li><a href="#">How to do this</a></li>
+        </ul>
+      </aside>
   </div>
 </section>
 
@@ -35,10 +64,10 @@
     </header>
     <div class="section-content region">
       {% if race_list %}
-        <ul>
+        <ul class="flexgrid m1-one m2-two t-two d-three w-three">
           {% for race in race_list %}
             <li>
-              <h3><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li></h3>
+              <h3><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></h3>
               <p>{{ race.starts }}</p>
             </li>
           {% endfor %}

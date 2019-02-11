@@ -1,11 +1,50 @@
+$num_columns: 12;
+
 .wrap {
     margin: 0 auto;
     padding: 0 1rem;
-    position: relative;
-    width: 100%;
+
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat($num_columns,1fr);
+    
     @include responsive(35){
       padding: 0;
     }
+}
+
+@include responsive(1){
+
+    .region {
+        grid-column: span $num_columns;
+        $span-slug: m1;
+		@for $i from 1 to $num_columns {
+		&.#{$span-slug}-#{$i} {
+			grid-column: span $i
+		}}
+    }
+
+}
+
+@include responsive(2){
+
+    .region {
+        grid-column: span $num_columns;
+        $span-slug: m2;
+		@for $i from 1 to $num_columns {
+		&.#{$span-slug}-#{$i} {
+			grid-column: span $i
+		}}
+    }
+
+}
+
+@include responsive(35){
+
+    .wrap {
+        grid-gap: 2rem;
+    }
+
 }
 
 @include responsive(3){
@@ -17,6 +56,15 @@
     .wrap {
         width: $wrapWidth;
     }
+
+    .region {
+        grid-column: span $num_columns;
+        $span-slug: t;
+		@for $i from 1 to $num_columns {
+		&.#{$span-slug}-#{$i} {
+			grid-column: span $i
+		}}
+    }
 }
 @include responsive(4){
 
@@ -26,6 +74,15 @@
 
     .wrap {
         width: $wrapWidth;
+    }
+
+    .region {
+        grid-column: span $num_columns;
+        $span-slug: d;
+		@for $i from 1 to $num_columns {
+		&.#{$span-slug}-#{$i} {
+			grid-column: span $i
+		}}
     }
 }
 
@@ -39,4 +96,12 @@
         width: $wrapWidth;
     }
 
+    .region {
+        grid-column: span $num_columns;
+        $span-slug: w;
+		@for $i from 1 to $num_columns {
+		&.#{$span-slug}-#{$i} {
+			grid-column: span $i
+		}}
+    }
 }
