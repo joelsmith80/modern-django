@@ -82,9 +82,6 @@ class Race(models.Model):
 
     def get_participants(self):
         return Participation.objects.filter( race=self ).order_by('bib') 
-        
-        
-
 
     def get_active_rosters(self):
         try:
@@ -235,6 +232,24 @@ class League(models.Model):
         teams.order_by('-points','name')
         return self.get_place_order(teams)
 
+    def get_races(self):
+        races =  Race.objects.filter(is_classic=1).order_by('starts')
+        for r in races:
+            r.results = self.get_standings_for_race( r )
+        return races
+
+    def get_standings_for_race( self, race ):
+        results = race.has_results()
+        if not results: return None
+        teams = Team.objects.filter( league=self )
+        if not teams: return None
+        for t in teams:
+            t.points = t.get_race_total( race )
+        return self.get_place_order(teams)
+
+    def get_rosters_for_race( self, race ):
+        return Roster.objects.filter( race=race, team__league=self )
+
     def get_teams_count(self):
         return len(self.team_set.all())
     get_teams_count.short_description = "Teams"
@@ -337,6 +352,12 @@ class Team(models.Model):
             if not season_total: season_total = 0
         except: season_total = 0
         return int(season_total)
+
+    def get_race_total( self, race ):
+        race_total = 0
+        roster = self.has_roster_for_race(race)
+        if not roster: return 0
+        return int(roster.pts)
 
     def get_all_rosters( self ):
         return Roster.objects.filter( team = self )

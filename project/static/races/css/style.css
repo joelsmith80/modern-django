@@ -874,6 +874,10 @@ th.rider-info {
   margin: 0;
   padding: 0 0 0 1rem;
 }
+.card ul.race-results-list {
+  list-style: none;
+  padding: 0;
+}
 
 body {
   margin: 0;

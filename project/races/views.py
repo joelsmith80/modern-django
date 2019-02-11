@@ -85,11 +85,13 @@ def leagues_index(request):
 
 def league_show(request,id):
     league = get_object_or_404(League,id=id)
+    races = league.get_races()
     teams = league.get_teams()
     league_belongs_to_user = True if request.user.id == league.owner_id else False
     context = {
         'league': league,
-        'teams': teams
+        'teams': teams,
+        'races': races
     }
     return render(request, 'leagues/detail.html',context)
 
