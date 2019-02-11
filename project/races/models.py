@@ -59,14 +59,14 @@ class Race(models.Model):
     def has_results(self):
         results = {}
         finishers = self.get_finishers()
-        if finishers:
-            results['finishers'] = finishers
-            non_finishers = self.get_dnf()
-            if non_finishers:
-                results['dnf'] = non_finishers
+        if not finishers: return False
+        results['finishers'] = finishers
+        non_finishers = self.get_dnf()
+        if non_finishers:
+            results['dnf'] = non_finishers
         return results
 
-    def get_finishers( self ):
+    def get_finishers(self):
         results = FinalResult.objects.filter(
             race=self,rider__participation__race=self
         )

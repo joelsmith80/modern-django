@@ -1,0 +1,30 @@
+.card-set-item {
+    border: 1px solid gray;
+}
+
+.card {
+
+    a {
+        text-decoration: none;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    .title {
+        margin: 0;
+    }
+
+    &:hover {
+        a .title {
+            text-decoration: underline;
+        }
+    }
+
+    .race-results-list {
+        margin: 0;
+        padding: 0 0 0 1rem;
+    }
+
+}

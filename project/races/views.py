@@ -27,6 +27,11 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     race_list = Race.objects.filter(is_classic=1).order_by('starts')
+    for race in race_list:
+        results = race.has_results()
+        if results:
+            top_five = results['finishers'][:5]
+            race.results = top_five
     team_list = None
     if request.user.is_authenticated:
         team_list = Team.objects.filter(user = request.user)
