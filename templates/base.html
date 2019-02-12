@@ -12,10 +12,10 @@
 
   <header class="site-header">
     <div class="wrap">
-      <div class="region t-10 d-10 w-10">
+      <div class="region t-9 d-9 w-9">
         <a href="/">Spring Classics</a>
       </div>
-      <div class="region t-2 d-2 w-2">
+      <div class="site-header_login-region region t-3 d-3 w-3">
         {% if user.is_authenticated %}
           <p>Hi {{ user.username }}! (<a href="{% url 'logout' %}">Log out</a>)</p>
         {% else %}

@@ -865,6 +865,7 @@ th.rider-info {
 
 .card-set-item {
   border: 1px solid gray;
+  background: white;
 }
 
 .card a {
@@ -900,6 +901,22 @@ th.rider-info {
   color: white;
 }
 
+.site-header_login-region {
+  text-align: right;
+}
+
+.my-teams-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.my-teams-list li {
+  margin-bottom: 0.5rem;
+}
+.my-teams-list li:last-child {
+  margin: 0;
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;
@@ -908,7 +925,12 @@ body {
 }
 
 .pg-home_intro-section {
+  background: #4b7dff;
   text-align: center;
+}
+
+.pg-home_races-section {
+  background: #ddd;
 }
 
 /*# sourceMappingURL=style.css.map */

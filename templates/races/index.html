@@ -17,7 +17,8 @@
     <div class="section-content region">
       {% if user.is_authenticated %}
         {% if team_list %}
-          <ul>
+          <h2>My Teams</h2>
+          <ul class="my-teams-list">
             {% for team in team_list %}
               <li><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></li>
             {% endfor %}
@@ -57,7 +58,7 @@
   </div>
 </section>
 
-<section>
+<section class="pg-home_races-section">
   <div class="wrap">
     <header class="section-header region">
       <h2 class="section-title">Races</h2>
