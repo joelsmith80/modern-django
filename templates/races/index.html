@@ -4,9 +4,9 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
+{% block content%}
 
-<section>
+<section class="pg-home_intro-section">
   <div class="wrap">
     <header class="section-header region">
       <h1>Welcome to the Race</h1>
@@ -27,7 +27,7 @@
           <p>You don't have any teams yet. <a href="{% url 'races:team_add' %}" class="btn">Go add one.</a></p>
         {% endif %}
       {% else %}
-        <ul>
+        <ul class="button-set">
           <li><a href="{% url 'login' %}" class="btn">Log In</a></li>
           <li><a href="{% url 'races:signup' %}" class="btn">Sign Up</a></li>
         </ul>

@@ -854,6 +854,15 @@ th.rider-info {
   text-decoration: none;
 }
 
+.button-set {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.button-set li {
+  display: inline-block;
+}
+
 .card-set-item {
   border: 1px solid gray;
 }
@@ -879,11 +888,27 @@ th.rider-info {
   padding: 0;
 }
 
+.site-header {
+  background: black;
+  color: white;
+  padding: 1rem 0;
+}
+.site-header p {
+  margin: 0;
+}
+.site-header a {
+  color: white;
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;
   min-height: 100vh;
   position: relative;
+}
+
+.pg-home_intro-section {
+  text-align: center;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -10,9 +10,11 @@
 </head>
 <body>
 
-  <header>
+  <header class="site-header">
     <div class="wrap">
-      <div class="region t-10 d-10 w-10"><a href="/">Spring Classics</a></div>
+      <div class="region t-10 d-10 w-10">
+        <a href="/">Spring Classics</a>
+      </div>
       <div class="region t-2 d-2 w-2">
         {% if user.is_authenticated %}
           <p>Hi {{ user.username }}! (<a href="{% url 'logout' %}">Log out</a>)</p>

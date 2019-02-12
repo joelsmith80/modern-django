@@ -19,7 +19,9 @@ COMPONENTS
 @import "components/footer";
 @import "components/table";
 @import "components/buttons";
+@import "components/button-set";
 @import "components/cards";
+@import "components/site-header";
 
 body {
     margin: 0;
@@ -27,3 +29,5 @@ body {
     min-height: 100vh;
     position: relative;
 }
+
+@import "pages/home";
