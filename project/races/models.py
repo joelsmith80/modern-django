@@ -286,6 +286,13 @@ class Team(models.Model):
             return False
         return True
 
+    def get_races( self ):
+        races = Race.objects.filter(is_classic=1).order_by('starts')
+        if not races: return None
+        for r in races:
+            r.results = self.has_results_for_race( r )
+        return races
+
     def has_roster_for_race(self,race_id):
         roster = self.get_roster_for_race( race_id )
         if roster: return roster

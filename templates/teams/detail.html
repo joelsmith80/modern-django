@@ -24,13 +24,63 @@
     </div>
 </section>
 
-<section>
+<section class="gray-back">
     <div class="wrap">
         <header class="region">
             <h2>Race Schedule</h2>
         </header>
         <div class="region">
             {% if races %}
+                <ul class="card-set flexgrid m1-one m2-two t-two d-two w-three">
+                    {% for race in races %}
+                        <li class="card-set-item">
+                            <article class="race-card card">
+                                <figure class="image-space"><a href="{% url 'races:race_show' race.slug %}"></a></figure>
+                                <header class="text-space">
+                                    <h3 class="title"><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></h3>
+                                    <p>{{ race.starts }}</p>
+                                    <p>{{ race.description }}</p>
+                                    {% if race.results %}
+                                        <h4>Results</h4>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Place</th>
+                                                    <th>Team</th>
+                                                    <th>Points</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for r in race.results.finishers %}
+                                                    <tr>
+                                                        <td>{{ r.place }}</td>
+                                                        <td><a href="{% url 'races:rider_show' race.id %}">{{ r.rider }}</a></td>
+                                                        <td>{{ r.points }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                {% if race.results.dnf %}
+                                                    {% for r in race.results.dnf %}
+                                                        <tr class="dnf">
+                                                            <td>--</td>
+                                                            <td><a href="{% url 'races:rider_show' race.id %}">{{ r.rider }}</a></td>
+                                                            <td>--</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Total</td>
+                                                    <td>{{ race.results.roster_total }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    {% endif %}
+                                </header>
+                            </article>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
                 <table>
                     <thead>
                         <tr>

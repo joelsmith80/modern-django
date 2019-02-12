@@ -600,6 +600,10 @@ main > section {
 /* =============
 COMPONENTS
 ================ */
+.gray-back {
+  background: #ddd;
+}
+
 .race-marquee {
   background: blue;
   min-height: 33vh;

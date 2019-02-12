@@ -147,7 +147,7 @@ def teams_index(request):
 
 def team_show(request,id):
     team = get_object_or_404(Team,id=id)
-    races = Race.objects.filter(is_classic=1).order_by('starts')
+    races = team.get_races()
     team_belongs_to_user = True if request.user.id == team.user_id else False
     if(team_belongs_to_user):
         for r in races:
