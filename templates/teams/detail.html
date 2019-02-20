@@ -24,6 +24,60 @@
     </div>
 </section>
 
+{% if team_belongs_to_user %}
+<section>
+    <div class="wrap">
+        <header class="region">
+            <h2>Manage Races</h2>
+        </header>
+        <div class="region">
+            {% if races %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Manage</th>
+                            <th>Race</th>
+                            <th>Date</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for race in races %}
+                            <tr>
+                                <td>
+                                    {% if race.is_locked %}
+                                        ---
+                                    {% else %}
+                                        {% if race.has_roster %}
+                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-yellow">Manage Roster</a>
+                                        {% else %}
+                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-red">Create Roster</a>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <h3><a href="{% url 'races:team_race' id=team.id slug=race.slug %}" class="tr_title">{{ race.name }}</a></h3>
+                                </td>
+                                <td>{{ race.starts }}</td>
+                                <td>
+                                    {% if race.results %}
+                                        <a href="{% url 'races:team_race' id=team.id slug=race.slug %}">See Results</a>
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>There are not yet any scheduled races.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <section class="gray-back">
     <div class="wrap">
         <header class="region">
@@ -79,50 +133,9 @@
                             </article>
                         </li>
                     {% endfor %}
-                </ul>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Race</th>
-                            {% if team_belongs_to_user %}
-                                <th>Draft</th>
-                            {% endif %}
-                            <th>Results</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for race in races %}
-                            <tr>
-                                <td>
-                                    <h2><a href="{% url 'races:team_race' id=team.id slug=race.slug %}">{{ race.name }}</a></h2>
-                                    <p>{{ race.description }}</p>
-                                    <p>{{ race.starts }}</p>
-                                </td>
-                                {% if team_belongs_to_user %}
-                                    <td>
-                                        {% if race.is_locked %}
-                                            {% if race.has_roster %}
-                                                True
-                                            {% else %}
-                                                n/a
-                                            {% endif %}
-                                        {% else %}
-                                            {% if race.has_roster %}
-                                                <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}">Edit Roster</a>
-                                            {% else %}
-                                                <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}">Draft Team</a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </td>
-                                {% endif %}
-                                <td><a href="#">n/a</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                </ul>    
             {% else %}
-                <p>There are not yet any scheduled races.</p>
+                <p>There are no races available yet.</p>
             {% endif %}
         </div>
     </div>
