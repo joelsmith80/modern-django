@@ -23,19 +23,28 @@
             <input type="checkbox" id="main-menu-toggle" name="main-menu-toggle" class="main-menu-toggle mobile-toggle">
             <label for="main-menu-toggle" class="mobile-toggle-label">Menu</label>
             <ul class="main-menu">
-              <li><a href="#">My Teams</a>
-                <ul>
-                  <li><a href="#">Team 1</a></li>
-                  <li><a href="#">Team 2</a></li>
-                  <li><a href="#" class="main-menu_create-new-team">New Team</a></li>
-                </ul>
-              </li>
+
+              {% if user.team_set.all %}
+              
+                <li><a href="#">My Teams</a>
+                  <ul>
+                    {% for team in user.team_set.all %}
+                    <li><a href="{% url 'races:team_show' team.id %}">{{ team }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% url 'races:team_add' %}" class="main-menu_create-new-team">New Team</a></li>
+                  </ul>
+                </li>
+
+              {% else %}
+                <li><a href="{% url 'races:team_add' %}">Create Team</a></li>
+              {% endif %}
+
               <li><a href="#">Account</a>
                 <ul>
                   <li><a href="{% url 'logout' %}">Log Out</a></li>
-                  <li><a href="/account">Edit User</a></li>
                 </ul>
               </li>
+            
             </ul>
 
           {% else %}
