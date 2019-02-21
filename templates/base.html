@@ -12,15 +12,41 @@
 
   <header class="site-header">
     <div class="wrap">
-      <div class="region t-9 d-9 w-9">
+      <div class="region m1-9 m2-9 t-3 d-3 w-3">
         <a href="/">Spring Classics</a>
       </div>
-      <div class="site-header_login-region region t-3 d-3 w-3">
-        {% if user.is_authenticated %}
-          <p>Hi {{ user.username }}! (<a href="{% url 'logout' %}">Log out</a>)</p>
-        {% else %}
-          <p><a href="{% url 'login' %}">Log in</a></p>
-        {% endif %}
+      <div class="site-header_login-region region m1-3 m2-3 t-9 d-9 w-9">
+        <nav class="main-nav">
+
+          {% if user.is_authenticated %}
+
+            <input type="checkbox" id="main-menu-toggle" name="main-menu-toggle" class="main-menu-toggle mobile-toggle">
+            <label for="main-menu-toggle" class="mobile-toggle-label">Menu</label>
+            <ul class="main-menu">
+              <li><a href="#">My Teams</a>
+                <ul>
+                  <li><a href="#">Team 1</a></li>
+                  <li><a href="#">Team 2</a></li>
+                  <li><a href="#" class="main-menu_create-new-team">New Team</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Account</a>
+                <ul>
+                  <li><a href="{% url 'logout' %}">Log Out</a></li>
+                  <li><a href="/account">Edit User</a></li>
+                </ul>
+              </li>
+            </ul>
+
+          {% else %}
+
+            <ul class="main-menu">
+              <li><a href="{% url 'login' %}">Log In</a></li>
+            </ul>
+
+          {% endif %}
+
+        </nav>
       </div>
     </div>
   </header>
