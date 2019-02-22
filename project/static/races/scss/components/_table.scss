@@ -1,6 +1,9 @@
 table {
     table-layout: fixed;
     width: 100%;
+    h1,h2,h3,h4,h5,h6,p {
+        margin: 0;
+    }
 }
   
     thead {
@@ -47,7 +50,7 @@ table {
             margin: 0;
         }
         .tr_title {
-            font-size: 0.925rem;
+            // font-size: 0.925rem;
             font-weight: 200;
         }
         a.tr_title {
@@ -69,6 +72,7 @@ table {
     td {
         padding: 10px;
         @include responsive(35){
+            border-bottom: 1px dotted gray;
             padding: 1rem 0.5rem;
         }
     }

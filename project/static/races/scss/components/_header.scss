@@ -60,6 +60,9 @@
             text-decoration: underline;
         }
     }
+    a.main-menu_create-new-team {
+        color: $green;
+    }
     ul {
         list-style: none;
         margin: 0;
@@ -85,6 +88,7 @@
             right: 0;
             text-align: right;
             width: 200px;
+            z-index: 1;
             a:before {
                 content: none;
             }
