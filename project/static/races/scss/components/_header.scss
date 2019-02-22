@@ -1,8 +1,22 @@
 .site-header {
+    
+    background: black;
+    color: white;
+    padding: 1rem 0;
+
+    p {
+        margin: 0;
+    }
+
+    a {
+        color: white;
+    }
+    
     .wrap {
         height: 1rem;
         position: relative;
     }
+    
     @include responsive(35){
         padding: 0;
         .wrap {
@@ -70,7 +84,7 @@
             position: absolute;
             right: 0;
             text-align: right;
-            width: 150px;
+            width: 200px;
             a:before {
                 content: none;
             }
@@ -78,6 +92,9 @@
         > li {
             display: inline-block;
             position: relative;
+            a {
+                border: none;
+            }
             &:hover {
                 > ul {
                     display: block;
@@ -89,4 +106,8 @@
 
 .main-menu-toggle:checked ~ ul {
     display: block;
+}
+
+.site-header_login-region {
+    text-align: right;
 }

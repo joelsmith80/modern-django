@@ -36,7 +36,7 @@ def home(request):
     if request.user.is_authenticated:
         team_list = Team.objects.filter(user = request.user)
     context = {
-        'race_list': race_list,
+        'races': race_list,
         'team_list': team_list
     }
     return render(request, 'races/index.html', context)

@@ -64,9 +64,9 @@
       <h2 class="section-title">Races</h2>
     </header>
     <div class="section-content region">
-      {% if race_list %}
+      {% if races %}
         <ul class="card-set flexgrid m1-one m2-two t-two d-three w-three">
-          {% for race in race_list %}
+          {% for race in races %}
             <li class="card-set-item">
               <article class="race-card card">
                 <figure class="image-space"><a href="{% url 'races:race_show' race.slug %}"></a></figure>

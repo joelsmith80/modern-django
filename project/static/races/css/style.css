@@ -893,22 +893,6 @@ th.rider-info {
   padding: 0;
 }
 
-.site-header {
-  background: black;
-  color: white;
-  padding: 1rem 0;
-}
-.site-header p {
-  margin: 0;
-}
-.site-header a {
-  color: white;
-}
-
-.site-header_login-region {
-  text-align: right;
-}
-
 .my-teams-list {
   list-style: none;
   margin: 0;
@@ -921,6 +905,17 @@ th.rider-info {
   margin: 0;
 }
 
+.site-header {
+  background: black;
+  color: white;
+  padding: 1rem 0;
+}
+.site-header p {
+  margin: 0;
+}
+.site-header a {
+  color: white;
+}
 .site-header .wrap {
   height: 1rem;
   position: relative;
@@ -992,7 +987,7 @@ th.rider-info {
     position: absolute;
     right: 0;
     text-align: right;
-    width: 150px;
+    width: 200px;
   }
   .main-menu ul a:before {
     content: none;
@@ -1001,6 +996,9 @@ th.rider-info {
     display: inline-block;
     position: relative;
   }
+  .main-menu > li a {
+    border: none;
+  }
   .main-menu > li:hover > ul {
     display: block;
   }
@@ -1008,6 +1006,10 @@ th.rider-info {
 
 .main-menu-toggle:checked ~ ul {
   display: block;
+}
+
+.site-header_login-region {
+  text-align: right;
 }
 
 body {

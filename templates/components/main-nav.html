@@ -1,0 +1,49 @@
+<nav class="main-nav">
+
+    {% if user.is_authenticated %}
+
+        <input type="checkbox" id="main-menu-toggle" name="main-menu-toggle" class="main-menu-toggle mobile-toggle">
+        <label for="main-menu-toggle" class="mobile-toggle-label">Menu</label>
+        <ul class="main-menu">
+
+            {% if user.team_set.all %}
+            
+                <li><a href="#">My Teams</a>
+                    <ul>
+                    {% for team in user.team_set.all %}
+                    <li><a href="{% url 'races:team_show' team.id %}">{{ team }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% url 'races:team_add' %}" class="main-menu_create-new-team">New Team</a></li>
+                    </ul>
+                </li>
+
+            {% else %}
+                <li><a href="{% url 'races:team_add' %}">Create Team</a></li>
+            {% endif %}
+
+            <li><a href="#">Races</a>
+                <ul>
+                {% for race in races %}
+                    <li><a href="#">{{ race.name }}</a></li>
+                {% endfor %}
+                </ul>
+            </li>
+            
+            <li><a href="#">Account</a>
+                <ul>
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    <!--<li><a href="/accounts">Edit User</a></li>-->
+                </ul>
+            </li>
+
+        </ul>
+
+    {% else %}
+
+        <ul class="main-menu">
+            <li><a href="{% url 'login' %}">Log In</a></li>
+        </ul>
+
+    {% endif %}
+
+</nav>

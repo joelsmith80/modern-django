@@ -78,6 +78,7 @@
 </section>
 {% endif %}
 
+
 <section class="gray-back">
     <div class="wrap">
         <header class="region">
@@ -89,9 +90,9 @@
                     {% for race in races %}
                         <li class="card-set-item">
                             <article class="race-card card">
-                                <figure class="image-space"><a href="{% url 'races:race_show' race.slug %}"></a></figure>
+                                <figure class="image-space"><a href="{% url 'races:team_race' id=team.id slug=race.slug %}"></a></figure>
                                 <header class="text-space">
-                                    <h3 class="title"><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></h3>
+                                    <h3 class="title"><a href="{% url 'races:team_race' id=team.id slug=race.slug %}">{{ race.name }}</a></h3>
                                     <p>{{ race.starts }}</p>
                                     <p>{{ race.description }}</p>
                                     {% if race.results %}
