@@ -6,32 +6,12 @@
 
 {% block content %}
 
-<section class="race-marquee {{ race.slug }}">
-  <div class="wrap">
-    <div class="intro">
-      <h1 class="title">{{ race.name }}</h1>
-      <p class="dateline">{{ race.starts }}</p>
-      <p>{{ race.description }}</p>
-    </div>
-    <div class="map">
-      <a href="#" target="_blank" rel="noopener">View Map</a>
-    </div>
-    <div class="distance">
-      {{ race.distance }}
-    </div>
-    <div class="start-city map-point">
-      {{ race.start_city }}
-    </div>
-    <div class="end-city map-point">
-      {{ race.end_city }}
-    </div>
-  </div>
-</section>
+{% include "components/race-marquee.html" %}
 
 <section>
   <div class="wrap">
     <header class="section-header region">
-      <h2 class="section-title">Riders In This Race</h2>
+      <h2 class="section-title">Race Results</h2>
     </header>
     <div class="section-content region">
       {% if rows %}
@@ -58,7 +38,7 @@
         </tbody>
       </table>
       {% else %}
-        <p>Sorry, but the rosters aren't ready for this race yet. Once they are, you'll be able to pick your racers using the button above.</p>
+        <p>Sorry, but there are no results for this race yet.</p>
       {% endif %}
     </div>
   </div>

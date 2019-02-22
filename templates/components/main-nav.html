@@ -21,10 +21,10 @@
                 <li><a href="{% url 'races:team_add' %}">Create Team</a></li>
             {% endif %}
 
-            <li><a href="#">Races</a>
+            <li><a href="/">Races</a>
                 <ul>
                 {% for race in races %}
-                    <li><a href="#">{{ race.name }}</a></li>
+                    <li><a href="{% url 'races:race_show' race.slug %}">{{ race.name }}</a></li>
                 {% endfor %}
                 </ul>
             </li>

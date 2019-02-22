@@ -57,23 +57,22 @@ def signup(request):
     return render(request,'users/signup.html',{'form': form})
 
 def race_show(request,slug):
-    rows = False
+    rows = {}
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
+    races = Race.get_races()
     results = race.has_results()
-    if results:
-        rows = {
-            'finishers': results.get('finishers')
-        }
-        if 'dnf' in results:
-            rows['dnf'] = results.get('dnf')
-    else:
-        participants = Participation.objects.filter(race=race.id).order_by('bib')
-        formatted = Participation.format_for_table_rows(participants)
-        rows = {
-            'overall_results': formatted
-        }
+    if results: 
+        rows['finishers'] = results.get('finishers')
+        if 'dnf' in results: rows['dnf'] = results.get('dnf')
+    # else:
+        # participants = Participation.objects.filter(race=race.id).order_by('bib')
+        # formatted = Participation.format_for_table_rows(participants)
+        # rows = {
+            # 'overall_results': formatted
+        # }
     context = {
         'race': race,
+        'races': races,
         'rows': rows
     }
     return render(request, 'races/detail.html', context)
@@ -164,6 +163,7 @@ def team_race(request,id,slug):
     
     team = get_object_or_404(Team,id=id)
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
+    races = Race.get_races()
     results = race.has_results()
     race.has_results = True if results else False
     team_belongs_to_user = True if request.user.id == team.user_id else False
@@ -237,6 +237,7 @@ def team_race(request,id,slug):
 
     context['team'] = team
     context['race'] = race
+    context['races'] = races
     context['team_belongs_to_user'] = team_belongs_to_user  
     context['rows'] = rows
     context['messages'] = messages

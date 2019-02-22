@@ -90,6 +90,9 @@ class Race(models.Model):
         except:
             return None
 
+    def get_races():
+        return Race.objects.filter(is_classic=1).order_by('starts')
+
     
 
 class Participation(models.Model):

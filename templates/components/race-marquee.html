@@ -1,0 +1,21 @@
+<section class="race-marquee {{ race.slug }}">
+  <div class="wrap">
+    <div class="intro">
+      <h1 class="title">{{ race.name }}</h1>
+      <p class="dateline">{{ race.starts }}</p>
+      <p>{{ race.description }}</p>
+    </div>
+    <div class="map">
+      <a href="#" target="_blank" rel="noopener">View Map</a>
+    </div>
+    <div class="distance">
+      {{ race.distance }}
+    </div>
+    <div class="start-city map-point">
+      {{ race.start_city }}
+    </div>
+    <div class="end-city map-point">
+      {{ race.end_city }}
+    </div>
+  </div>
+</section>
