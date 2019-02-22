@@ -24,12 +24,27 @@ COMPONENTS
 @import "components/cards";
 @import "components/my-teams-list";
 @import "components/header";
+@import "components/mgmt-strip";
 
 body {
     margin: 0;
     padding: 0 0 3rem 0; // allows room for absolutely-positioned .site-footer element
     min-height: 100vh;
     position: relative;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-top: 0;
+}
+
+p {
+    line-height: 1.35;
 }
 
 @import "pages/home";

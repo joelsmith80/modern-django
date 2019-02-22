@@ -1,0 +1,28 @@
+.mgmt-strip {
+
+    .title {
+        margin: 0 0 0.5rem 0;
+    }
+
+    .wrap {
+        @include responsive(35){
+            align-items: center;
+        }
+    }
+
+    .region {
+        p:last-child {
+            margin-bottom: 0;
+        }
+        @include responsive(35){
+            margin-bottom: 0;
+        }
+    }
+
+    .cta-region {
+        @include responsive(35){
+            text-align: right;
+        }
+    }
+
+}

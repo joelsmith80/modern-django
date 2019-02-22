@@ -1012,11 +1012,47 @@ th.rider-info {
   text-align: right;
 }
 
+.mgmt-strip .title {
+  margin: 0 0 0.5rem 0;
+}
+@media only screen and (min-width: 768px) {
+  .mgmt-strip .wrap {
+    align-items: center;
+  }
+}
+.mgmt-strip .region p:last-child {
+  margin-bottom: 0;
+}
+@media only screen and (min-width: 768px) {
+  .mgmt-strip .region {
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .mgmt-strip .cta-region {
+    text-align: right;
+  }
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;
   min-height: 100vh;
   position: relative;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.35;
 }
 
 .pg-home_intro-section {

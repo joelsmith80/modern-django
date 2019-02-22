@@ -6,21 +6,22 @@
 
 {% block content %}
 
-<section class="team-mgmt-section">
+<section class="mgmt-strip team-mgmt-section gray-back">
     <div class="wrap">
-        <header class="region">
-            <h1>{{ team.name }}</h1>
+        <header class="region {% if not team.league %}t-9 d-9 w-9{% endif %}">
+            <h1 class="title">{{ team.name }}</h1>
             {% if team.league %}
                 <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
-            {% else %}
+            {% endif %}
+            {% if team_belongs_to_user and not team.league %}
                 <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
             {% endif %}
-            {% if team_belongs_to_user %}
-                <p>This is your team, so we'll show you some management options.</p>
-            {% else %}
-                <p>This isn't your team, so we'll display only public information.</p>
-            {% endif %}
         </header>
+        {% if not team.league %}
+        <div class="cta-region region t-3 d-3 w-3">
+            <a href="{% url 'races:team_join_league' team.id %}" class="btn alert-high">Join League</a>
+        </div>
+        {% endif %}
     </div>
 </section>
 
