@@ -1145,6 +1145,33 @@ th.rider-info {
   font-size: 0.8rem;
 }
 
+p.alert {
+  padding-left: 1.7rem;
+  position: relative;
+}
+p.alert:before {
+  background: red;
+  border: 2px solid white;
+  border-radius: 50%;
+  color: white;
+  content: '!';
+  display: block;
+  font-size: 0.75rem;
+  font-weight: bold;
+  height: 0.75rem;
+  left: 0;
+  line-height: 1;
+  margin-top: -0.75rem;
+  padding: 0.15rem;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  width: 0.75rem;
+}
+p.alert.alert-medium:before {
+  background: orange;
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;
