@@ -65,14 +65,15 @@
     </header>
     <div class="section-content region">
       
-      {% if race.has_results %}
+      {% if race.has_result_data %}
 
         <div class="race-results" data-ui="tabs">
 
           <nav>
             <ul>
               <li><a href="#team-panel">Team</a></li>
-              <li><a href="#overall-panel">Overall</a></li>
+              <li><a href="#league-panel">League</a></li>
+              <li><a href="#overall-panel">Race</a></li>
             </ul>
           </nav>
           
@@ -103,9 +104,35 @@
               <p class="empty-results-explanation">{{ messages.no_team_results }}</p>
             {% endif %}
           </div>
+
+          <div id="league-panel" class="panel league">
+            <h4>League Results</h4>
+            {% if 'league_results' in rows %}
+              <table class="league-results-table">
+                <thead>
+                  <tr>
+                    <th class="headstone place">Place</th>
+                    <th class="team">Team</th>
+                    <th class="points">Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for t in rows.league_results %}
+                    <tr>
+                      <td class="headstone place">{{ t.place }}</td>
+                      <td class="team"><a href="{% url 'races:team_race' id=t.id slug=race.slug %}">{{ t.name }}</a></td>
+                      <td class="points">{{ t.points }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p class="empty-results-explanation">{{ messages.no_league_results }}</p>
+            {% endif %}
+          </div>
           
           <div id="overall-panel" class="panel overall">
-            <h4>Overall Results</h4>
+            <h4>Race Results</h4>
             {% if 'race_finishers' in rows %}
               <table class="race-results-table">
                 <thead>

@@ -166,19 +166,25 @@ def team_show(request,id):
 def team_race(request,id,slug):
     
     team = get_object_or_404(Team,id=id)
+    league = team.league
     race = Race.objects.filter(slug=slug).order_by('-id')[0]
     races = Race.get_races()
     race_prev = Race.get_series( race, races, 'prev' )
     race_next = Race.get_series( race, races, 'next' )
     results = race.has_results()
-    race.has_results = True if results else False
+    race.has_result_data = True if results else False
     team_belongs_to_user = True if request.user.id == team.user_id else False
     rows = {}
     messages = {}
     context = {}
 
     if results:
+        
         team_results = team.has_results_for_race( race )
+        
+        if league: league_results = league.get_standings_for_race( race )
+        else: league_results = None
+        
         if team_results:
             if 'finishers' in team_results:
                 rows['team_finishers'] = team_results.get('finishers')
@@ -186,8 +192,10 @@ def team_race(request,id,slug):
                 rows['team_dnf'] = team_results.get('dnf')
             if 'roster_total' in team_results:
                 context['roster_total'] = team_results['roster_total']
-        else:
-            messages['no_team_results'] = "Sorry, but this team doesn't have any results for this race."
+        else: messages['no_team_results'] = "Sorry, but this team doesn't have any results for this race."
+        if league_results: rows['league_results'] = league_results
+        else: messages['no_league_results'] = "Sorry, but this league doesn't have any results for this race."
+
         if 'finishers' in results:
             rows['race_finishers'] = results.get('finishers')
         if 'dnf' in results:
