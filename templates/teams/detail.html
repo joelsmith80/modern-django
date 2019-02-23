@@ -31,7 +31,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Manage</th>
+                            <th>Roster</th>
                             <th>Race</th>
                             <th>Date</th>
                             <th>Results</th>
@@ -42,12 +42,12 @@
                             <tr>
                                 <td>
                                     {% if race.is_locked %}
-                                        ---
+                                        Locked
                                     {% else %}
                                         {% if race.has_roster %}
-                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-yellow">Manage Roster</a>
+                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-yellow">Manage</a>
                                         {% else %}
-                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-red">Create Roster</a>
+                                            <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}" class="manage-races-alert_level-red">Create</a>
                                         {% endif %}
                                     {% endif %}
                                 </td>
