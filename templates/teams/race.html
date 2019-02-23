@@ -71,94 +71,96 @@
 
           <nav>
             <ul>
-              <li><a href="#team-panel">Team</a></li>
-              <li><a href="#league-panel">League</a></li>
-              <li><a href="#overall-panel">Race</a></li>
+              <li id="opens-team-panel"><a href="#team-panel">Team</a></li>
+              <li id="opens-league-panel"><a href="#league-panel">League</a></li>
+              <li id="opens-overall-panel"><a href="#overall-panel">Race</a></li>
             </ul>
           </nav>
-          
-          <div id="team-panel" class="panel team">
-            <h4>Team Results</h4>
-            {% if 'team_finishers' in rows %}
-              <table class="race-results-table">
-                <thead>
-                  <tr>
-                    <th class="headstone">Place</th>
-                    <th class="rider">Rider</th>
-                    <th class="prospects">Prospects</th>
-                    <th class="points">Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for r in rows.team_finishers %}
-                    {% include "components/results-table-row.html" with status="" %}
-                  {% endfor %}
-                  {% if 'team_dnf' in rows %}
-                    {% for r in rows.team_dnf %}
-                      {% include "components/results-table-row.html" with status="dnf" %}
-                    {% endfor %}
-                  {% endif %}
-                </tbody>
-              </table>
-            {% else %}
-              <p class="empty-results-explanation">{{ messages.no_team_results }}</p>
-            {% endif %}
-          </div>
 
-          <div id="league-panel" class="panel league">
-            <h4>League Results</h4>
-            {% if 'league_results' in rows %}
-              <table class="league-results-table">
-                <thead>
-                  <tr>
-                    <th class="headstone place">Place</th>
-                    <th class="team">Team</th>
-                    <th class="points">Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for t in rows.league_results %}
+          <div class="inner-container">
+          
+            <div id="team-panel" class="panel team">
+              <h4>Team Results</h4>
+              {% if 'team_finishers' in rows %}
+                <table class="race-results-table">
+                  <thead>
                     <tr>
-                      <td class="headstone place">{{ t.place }}</td>
-                      <td class="team"><a href="{% url 'races:team_race' id=t.id slug=race.slug %}">{{ t.name }}</a></td>
-                      <td class="points">{{ t.points }}</td>
+                      <th class="headstone">Place</th>
+                      <th class="rider">Rider</th>
+                      <th class="prospects">Prospects</th>
+                      <th class="points">Points</th>
                     </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            {% else %}
-              <p class="empty-results-explanation">{{ messages.no_league_results }}</p>
-            {% endif %}
-          </div>
-          
-          <div id="overall-panel" class="panel overall">
-            <h4>Race Results</h4>
-            {% if 'race_finishers' in rows %}
-              <table class="race-results-table">
-                <thead>
-                  <tr>
-                    <th class="headstone place">Place</th>
-                    <th class="rider">Rider</th>
-                    <th class="prospects">Prospects</th>
-                    <th class="points">Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for r in rows.race_finishers %}
-                    {% include "components/results-table-row.html" with status="" %}
-                  {% endfor %}
-                  {% if 'race_dnf' in rows %}
-                    {% for r in rows.race_dnf %}
-                      {% include "components/results-table-row.html" with status="dnf" %}
+                  </thead>
+                  <tbody>
+                    {% for r in rows.team_finishers %}
+                      {% include "components/results-table-row.html" with status="" %}
                     {% endfor %}
-                  {% endif %}
-                </tbody>
-              </table>
-            {% else %}
-              <p class="empty-results-explanation">{{ messages.no_overall_results }}</p>
-            {% endif %}
-          </div>
+                    {% if 'team_dnf' in rows %}
+                      {% for r in rows.team_dnf %}
+                        {% include "components/results-table-row.html" with status="dnf" %}
+                      {% endfor %}
+                    {% endif %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="empty-results-explanation">{{ messages.no_team_results }}</p>
+              {% endif %}
+            </div>
 
+            <div id="league-panel" class="panel league">
+              <h4>League Results</h4>
+              {% if 'league_results' in rows %}
+                <table class="league-results-table">
+                  <thead>
+                    <tr>
+                      <th class="headstone place">Place</th>
+                      <th class="team">Team</th>
+                      <th class="points">Points</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for t in rows.league_results %}
+                      <tr>
+                        <td class="headstone place">{{ t.place }}</td>
+                        <td class="team"><a href="{% url 'races:team_race' id=t.id slug=race.slug %}">{{ t.name }}</a></td>
+                        <td class="points">{{ t.points }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="empty-results-explanation">{{ messages.no_league_results }}</p>
+              {% endif %}
+            </div>
+            
+            <div id="overall-panel" class="panel overall">
+              <h4>Race Results</h4>
+              {% if 'race_finishers' in rows %}
+                <table class="race-results-table">
+                  <thead>
+                    <tr>
+                      <th class="headstone place">Place</th>
+                      <th class="rider">Rider</th>
+                      <th class="prospects">Prospects</th>
+                      <th class="points">Points</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for r in rows.race_finishers %}
+                      {% include "components/results-table-row.html" with status="" %}
+                    {% endfor %}
+                    {% if 'race_dnf' in rows %}
+                      {% for r in rows.race_dnf %}
+                        {% include "components/results-table-row.html" with status="dnf" %}
+                      {% endfor %}
+                    {% endif %}
+                  </tbody>
+                </table>
+              {% else %}
+                <p class="empty-results-explanation">{{ messages.no_overall_results }}</p>
+              {% endif %}
+            </div>
+          </div>
         </div>
       
       {% else %}
@@ -192,4 +194,10 @@
   </div>
 </section>
 
+{% endblock %}
+
+{% block footer-js %}
+  {{ block.super }}
+  {% load static %}
+  <script src="{% static 'races/js/src/tabs.js' %}"></script>
 {% endblock %}

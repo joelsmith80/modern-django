@@ -1192,6 +1192,9 @@ p.alert.alert-medium:before {
   display: inline-block;
   padding: 0.5rem 1rem;
 }
+*[data-ui='tabs'] nav li.muted {
+  border-color: white;
+}
 *[data-ui='tabs'] nav a {
   text-decoration: none;
 }
