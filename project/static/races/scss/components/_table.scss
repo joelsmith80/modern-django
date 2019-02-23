@@ -190,7 +190,8 @@ table {
     }
 
 .race-results-table,
-.race-draft-table {
+.race-draft-table,
+.league-results-table {
     @include responsive(35){
         th.prospects,
         th.points {

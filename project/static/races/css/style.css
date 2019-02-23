@@ -862,14 +862,18 @@ th.rider-info {
   .race-results-table th.prospects,
   .race-results-table th.points,
   .race-draft-table th.prospects,
-  .race-draft-table th.points {
+  .race-draft-table th.points,
+  .league-results-table th.prospects,
+  .league-results-table th.points {
     text-align: center;
     width: 5%;
   }
   .race-results-table td.prospects,
   .race-results-table td.points,
   .race-draft-table td.prospects,
-  .race-draft-table td.points {
+  .race-draft-table td.points,
+  .league-results-table td.prospects,
+  .league-results-table td.points {
     text-align: center;
   }
 }
@@ -1170,6 +1174,35 @@ p.alert:before {
 }
 p.alert.alert-medium:before {
   background: orange;
+}
+
+*[data-ui='tabs'] nav {
+  border-bottom: 1px solid gray;
+  margin-bottom: 2rem;
+}
+*[data-ui='tabs'] nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+*[data-ui='tabs'] nav li {
+  border-top: 1px solid gray;
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+}
+*[data-ui='tabs'] nav a {
+  text-decoration: none;
+}
+*[data-ui='tabs'] nav a:hover {
+  text-decoration: underline;
+}
+*[data-ui='tabs'] .panel {
+  margin-bottom: 3rem;
+}
+*[data-ui='tabs'] .panel:last-child {
+  margin-bottom: 0;
 }
 
 body {
