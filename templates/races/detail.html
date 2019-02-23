@@ -8,6 +8,27 @@
 
 {% include "components/race-marquee.html" %}
 
+
+<nav class="prev-next-race-nav">
+  <div class="wrap">
+    <div class="region">
+      <ul class="prev-next-race-nav-list">
+        {% if race_prev %}
+          <li><a href="{% url 'races:race_show' race_prev.slug %}" class="left prev">{{ race_prev.name }}<span class="date">{{ race.starts }}</span></a></li>
+        {% else %}
+          <li><a href="/" class="left home">All Races</a></li>
+        {% endif %}
+        {% if race_next %}
+          <li><a href="{% url 'races:race_show' race_next.slug %}" class="right next">{{ race_next.name }}<span class="date">{{ race.starts }}</span></a></li>
+        {% else %}
+          <li><a href="/" class="right home">All Races</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
 <section>
   <div class="wrap">
     <header class="section-header region">

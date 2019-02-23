@@ -1069,6 +1069,82 @@ th.rider-info {
   }
 }
 
+.prev-next-race-nav {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a7cfdf+50,23538a+50 */
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a7cfdf+50,23538a+50 */
+  background: #a7cfdf;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #a7cfdf 50%, #23538a 50%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #a7cfdf 50%, #23538a 50%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #a7cfdf 50%, #23538a 50%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a7cfdf', endColorstr='#23538a',GradientType=1 );
+  /* IE6-9 */
+}
+
+.prev-next-race-nav-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prev-next-race-nav-list li {
+  display: grid;
+  align-items: center;
+}
+.prev-next-race-nav-list a {
+  color: white;
+  display: block;
+  padding: 1rem;
+  position: relative;
+  text-decoration: none;
+}
+.prev-next-race-nav-list a:hover {
+  text-decoration: underline;
+}
+.prev-next-race-nav-list a.right {
+  text-align: right;
+}
+.prev-next-race-nav-list a.prev {
+  padding-left: 1.25rem;
+}
+.prev-next-race-nav-list a.prev:before {
+  border-left: 0.2rem solid #505050;
+  border-bottom: 0.2rem solid #505050;
+  content: '';
+  display: block;
+  height: 0.3rem;
+  left: 0;
+  margin-top: -0.3rem;
+  position: absolute;
+  top: 50%;
+  transform: rotate(45deg);
+  width: 0.3rem;
+}
+.prev-next-race-nav-list a.next {
+  padding-right: 1.25rem;
+}
+.prev-next-race-nav-list a.next:after {
+  border-right: 0.2rem solid #303030;
+  border-bottom: 0.2rem solid #303030;
+  content: '';
+  display: block;
+  height: 0.3rem;
+  margin-top: -0.3rem;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: rotate(-45deg);
+  width: 0.3rem;
+}
+.prev-next-race-nav-list .date {
+  display: block;
+  font-size: 0.8rem;
+}
+
 body {
   margin: 0;
   padding: 0 0 3rem 0;

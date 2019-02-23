@@ -8,11 +8,32 @@
 
 {% include "components/race-marquee.html" %}
 
+
+<nav class="prev-next-race-nav">
+    <div class="wrap">
+      <div class="region">
+        <ul class="prev-next-race-nav-list">
+          {% if race_prev %}
+            <li><a href="{% url 'races:team_race' id=team.id slug=race_prev.slug %}" class="left prev">{{ race_prev.name }}<span class="date">{{ race.starts }}</span></a></li>
+          {% else %}
+            <li><a href="/" class="left home">All Races</a></li>
+          {% endif %}
+          {% if race_next %}
+            <li><a href="{% url 'races:team_race' id=team.id slug=race_next.slug %}" class="right next">{{ race_next.name }}<span class="date">{{ race.starts }}</span></a></li>
+          {% else %}
+            <li><a href="/" class="right home">All Races</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+</nav>
+
+
 <section class="team-mgmt-section mgmt-strip gray-back">
     <div class="wrap">
 
       <header class="region t-9 d-9 w-9">
-        <h1><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h1>
+        <h2><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h2>
         {% if team.league %}
           <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
         {% else %}
@@ -40,7 +61,7 @@
 <section>
   <div class="wrap">
     <header class="section-header region">
-      <h2 class="section-title">{{ messages.table_hed }}</h2>
+      <h3 class="section-title">{{ messages.table_hed }}</h3>
     </header>
     <div class="section-content region">
       
@@ -56,7 +77,7 @@
           </nav>
           
           <div id="team-panel" class="panel team">
-            <h3>Team Results</h3>
+            <h4>Team Results</h4>
             {% if 'team_finishers' in rows %}
               <table class="race-results-table">
                 <thead>
@@ -84,7 +105,7 @@
           </div>
           
           <div id="overall-panel" class="panel overall">
-            <h3>Overall Results</h3>
+            <h4>Overall Results</h4>
             {% if 'race_finishers' in rows %}
               <table class="race-results-table">
                 <thead>

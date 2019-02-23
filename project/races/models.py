@@ -93,6 +93,20 @@ class Race(models.Model):
     def get_races():
         return Race.objects.filter(is_classic=1).order_by('starts')
 
+    def get_series( race, races, step = 'next' ):
+        race_ids = []
+        if step != 'next': step = 'prev'
+        for r in races:
+            race_ids.append(r.id)
+        index = race_ids.index( race.id )
+        if step == 'next':
+            if index == (len(race_ids) - 1): return None
+            else: return races[index + 1]
+        elif step == 'prev':
+            if index == 0: return None
+            else: return races[index - 1]
+        return None
+
     
 
 class Participation(models.Model):
