@@ -154,6 +154,9 @@ table {
     } 
   
     tr:last-child {
+        td {
+            border: none;
+        }
         td.headstone:after {
             border-bottom: 1px dotted gray;
         }
@@ -186,7 +189,8 @@ table {
         }
     }
 
-.race-results-table {
+.race-results-table,
+.race-draft-table {
     @include responsive(35){
         th.prospects,
         th.points {

@@ -828,6 +828,9 @@ td.headstone {
   }
 }
 
+tr:last-child td {
+  border: none;
+}
 tr:last-child td.headstone:after {
   border-bottom: 1px dotted gray;
 }
@@ -857,12 +860,16 @@ th.rider-info {
 
 @media only screen and (min-width: 768px) {
   .race-results-table th.prospects,
-  .race-results-table th.points {
+  .race-results-table th.points,
+  .race-draft-table th.prospects,
+  .race-draft-table th.points {
     text-align: center;
     width: 5%;
   }
   .race-results-table td.prospects,
-  .race-results-table td.points {
+  .race-results-table td.points,
+  .race-draft-table td.prospects,
+  .race-draft-table td.points {
     text-align: center;
   }
 }
@@ -912,6 +919,9 @@ th.rider-info {
 .card ul.race-results-list {
   list-style: none;
   padding: 0;
+}
+.card tbody td {
+  padding: 0.25rem 0.5rem;
 }
 
 .my-teams-list {

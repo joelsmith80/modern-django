@@ -6,45 +6,24 @@
 
 {% block content %}
 
-<section class="race-marquee {{ race.slug }}">
-  <div class="wrap">
-    <div class="intro">
-      <h1 class="title">{{ race.name }}</h1>
-      <p class="dateline">{{ race.starts }}</p>
-      <p>{{ race.description }}</p>
-    </div>
-    <div class="map">
-      <a href="#" target="_blank" rel="noopener">View Map</a>
-    </div>
-    <div class="distance">
-      {{ race.distance }}
-    </div>
-    <div class="start-city map-point">
-      {{ race.start_city }}
-    </div>
-    <div class="end-city map-point">
-      {{ race.end_city }}
-    </div>
-  </div>
-</section>
+{% include "components/race-marquee.html" %}
 
-<section class="team-mgmt-section">
+
+<section class="team-mgmt-section mgmt-strip gray-back">
     <div class="wrap">
         <header class="region">
             <h1><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h1>
             {% if team.league %}
                 <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
             {% else %}
-                <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
-            {% endif %}
-            {% if team_belongs_to_user %}
-                <p>This is your team, so we'll show you some management options.</p>
-            {% else %}
-                <p>This isn't your team, so we'll display only public information.</p>
+                {% if team_belongs_to_user %}
+                    <p class="alert alert-high">Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
+                {% endif %}
             {% endif %}
         </header>
     </div>
 </section>
+
 
 <section>
   <div class="wrap">

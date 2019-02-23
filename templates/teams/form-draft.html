@@ -8,25 +8,25 @@
     <input type="hidden" name="team_id" value="{{ team.id }}">
     <input type="hidden" name="race_id" value="{{ race.id }}">
     <input type="hidden" name="redirect" value="{{ redirect_on_success }}">
-    <table>
+    <table class="race-draft-table">
         <thead>
             <tr>
-                <th></th>
-                <th>Rider</th>
-                <th>Prospects</th>
+                <th class="headstone"></th>
+                <th class="rider">Rider</th>
+                <th class="prospects">Prospects</th>
             </tr>
         </thead>
         <tbody>
             {% for r in rows %}
             <tr>
-                <td>
+                <td class="headstone">
                     <input type="checkbox" name="picks" value="{{ r.id }}" {% if r.picked %}checked{% endif %}>
                 </td>
-                <td>
+                <td class="rider">
                     <p>{{ r.rider }}</p>
                     <p>#{{ r.bib }} {{ r.squad }} - {{ r.rider.country }}</p>
                 </td>
-                <td>{{ r.val }}</td>
+                <td class="prospects">{{ r.val }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -6,50 +6,34 @@
 
 {% block content %}
 
-<section class="race-marquee {{ race.slug }}">
-  <div class="wrap">
-    <div class="intro">
-      <h1 class="title">{{ race.name }}</h1>
-      <p class="dateline">{{ race.starts }}</p>
-      <p>{{ race.description }}</p>
-    </div>
-    <div class="map">
-      <a href="#" target="_blank" rel="noopener">View Map</a>
-    </div>
-    <div class="distance">
-      {{ race.distance }}
-    </div>
-    <div class="start-city map-point">
-      {{ race.start_city }}
-    </div>
-    <div class="end-city map-point">
-      {{ race.end_city }}
-    </div>
-  </div>
-</section>
+{% include "components/race-marquee.html" %}
 
 <section class="team-mgmt-section mgmt-strip gray-back">
     <div class="wrap">
-        <header class="region">
-            <h1><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h1>
-            {% if team.league %}
-              <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
-            {% else %}
-              <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
+
+      <header class="region t-9 d-9 w-9">
+        <h1><a href="{% url 'races:team_show' team.id %}">{{ team.name }}</a></h1>
+        {% if team.league %}
+          <p><a href="{% url 'races:league_show' team.league.id %}">{{ team.league }}</a></p>
+        {% else %}
+          {% if team_belongs_to_user %}
+            <p>Your team won't be able to race unless you <a href="{% url 'races:team_join_league' team.id %}">join a league</a>.</p>
+          {% endif %}
+        {% endif %}
+      </header>
+
+      {% if team_belongs_to_user and not race.is_locked %}
+        <div class="cta-region region t-3 d-3 w-3">
+          {% if roster %}
+            <a href="{% url 'races:team_race_draft' team.id race.slug %}" class="btn alert-medium">Edit Roster</a>
+          {% else %}
+            {% if picks %}
+              <a href="{% url 'races:team_race_draft' team.id race.slug %}" class="btn alert-high">Create Roster</a>
             {% endif %}
-            {% if team_belongs_to_user %}
-                <p>This is your team, so we'll show you some management options.</p>
-                {% if not race.is_locked %}
-                  {% if race.has_roster %}
-                    <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}">Edit Roster</a>
-                  {% else %}
-                  <a href="{% url 'races:team_race_draft' id=team.id slug=race.slug %}">Draft a Team</a>
-                  {% endif %}
-                {% endif %}
-            {% else %}
-                <p>This isn't your team, so we'll display only public information.</p>
-            {% endif %}
-        </header>
+          {% endif %}
+        </div>
+      {% endif %}
+
     </div>
 </section>
 
@@ -74,13 +58,13 @@
           <div id="team-panel" class="panel team">
             <h3>Team Results</h3>
             {% if 'team_finishers' in rows %}
-              <table>
+              <table class="race-results-table">
                 <thead>
                   <tr>
-                    <th>Place</th>
-                    <th>Rider</th>
-                    <th>Prospects</th>
-                    <th>Points</th>
+                    <th class="headstone">Place</th>
+                    <th class="rider">Rider</th>
+                    <th class="prospects">Prospects</th>
+                    <th class="points">Points</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -102,13 +86,13 @@
           <div id="overall-panel" class="panel overall">
             <h3>Overall Results</h3>
             {% if 'race_finishers' in rows %}
-              <table>
+              <table class="race-results-table">
                 <thead>
                   <tr>
-                    <th>Place</th>
-                    <th>Rider</th>
-                    <th>Prospects</th>
-                    <th>Points</th>
+                    <th class="headstone place">Place</th>
+                    <th class="rider">Rider</th>
+                    <th class="prospects">Prospects</th>
+                    <th class="points">Points</th>
                   </tr>
                 </thead>
                 <tbody>

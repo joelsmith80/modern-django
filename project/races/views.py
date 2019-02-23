@@ -308,7 +308,6 @@ def team_race_draft(request,id,slug):
                 r.picks.add(participant)
                 r.save()
 
-            print(request.POST)
             if 'redirect' in request.POST and request.POST['redirect'] == 'team':
                 return HttpResponseRedirect(reverse('races:team_race',args=(team.id,race.slug)))
             
@@ -331,6 +330,8 @@ def team_race_draft(request,id,slug):
                 ordered.append(r)
         context['riders'] = ordered
         context['rows'] = ordered
+    else:
+        context['rows'] = riders
     
     context['form'] = form
     context['redirect_on_success'] = "draft";
