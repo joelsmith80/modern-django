@@ -16,7 +16,7 @@ table {
     th {
         font-size: 0.9rem;
         font-weight: 200;
-        padding: 0 0.5rem 0.25rem 0.5rem;
+        padding: 0 1rem 0.25rem 1rem;
         text-align: left;
     }
   
@@ -73,7 +73,7 @@ table {
         padding: 10px;
         @include responsive(35){
             border-bottom: 1px dotted gray;
-            padding: 1rem 0.5rem;
+            padding: 1rem;
         }
     }
   
@@ -112,6 +112,9 @@ table {
         &.young:before {
             content: 'Best Young Rider Points: ';
         }
+        &.prospects:before {
+            content: 'Prospects: ';
+        }
         &.total:before {
             content: 'Total Points: ';
         }
@@ -122,9 +125,9 @@ table {
     }
   
     th.headstone {
-        width: 8%;
+        width: 4%;
         @include responsive(25){
-            width: 5%;
+            width: 3%;
         }
     }
   
@@ -182,3 +185,17 @@ table {
             }
         }
     }
+
+.race-results-table {
+    @include responsive(35){
+        th.prospects,
+        th.points {
+            text-align: center;
+            width: 5%;
+        }
+        td.prospects,
+        td.points {
+            text-align: center;
+        }
+    }
+}

@@ -682,7 +682,7 @@ thead {
 th {
   font-size: 0.9rem;
   font-weight: 200;
-  padding: 0 0.5rem 0.25rem 0.5rem;
+  padding: 0 1rem 0.25rem 1rem;
   text-align: left;
 }
 
@@ -746,7 +746,7 @@ td {
 @media only screen and (min-width: 768px) {
   td {
     border-bottom: 1px dotted gray;
-    padding: 1rem 0.5rem;
+    padding: 1rem;
   }
 }
 
@@ -786,6 +786,9 @@ td.combat:before {
 td.young:before {
   content: 'Best Young Rider Points: ';
 }
+td.prospects:before {
+  content: 'Prospects: ';
+}
 td.total:before {
   content: 'Total Points: ';
 }
@@ -795,11 +798,11 @@ tr.dnf {
 }
 
 th.headstone {
-  width: 8%;
+  width: 4%;
 }
 @media only screen and (min-width: 481px) {
   th.headstone {
-    width: 5%;
+    width: 3%;
   }
 }
 
@@ -850,6 +853,18 @@ th.rider-info {
 }
 .js .tablesorter th:not(.no-sort):nth-child(1):hover {
   text-decoration: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .race-results-table th.prospects,
+  .race-results-table th.points {
+    text-align: center;
+    width: 5%;
+  }
+  .race-results-table td.prospects,
+  .race-results-table td.points {
+    text-align: center;
+  }
 }
 
 .btn {
