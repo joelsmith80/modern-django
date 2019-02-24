@@ -650,6 +650,21 @@ COMPONENTS
   grid-column-start: span 1;
 }
 
+form label {
+  display: block;
+}
+form .helptext {
+  display: block;
+  font-size: 0.8rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.form-signup ul {
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0 0 0 1rem;
+}
+
 .site-footer {
   background: black;
   bottom: 0;
@@ -879,6 +894,9 @@ th.rider-info {
 }
 
 .btn {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   background: black;
   border: none;
   color: white;
