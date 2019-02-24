@@ -204,3 +204,60 @@ table {
         }
     }
 }
+
+// HELPER CLASSES
+
+$percentages: 1 2 3 4 5 6 7 8 9 10 15 20 25 30 35 40 45 50 60 80 90;
+
+@include responsive(1){
+    td.m1-center {
+        text-align: center;
+    }
+    @each $step in $percentages {
+        th.m1-#{$step}{
+            width: #{percentage( $step / 100  )};
+        }
+    }
+}
+
+@include responsive(2){
+    td.m2-center {
+        text-align: center;
+    }
+    @each $step in $percentages {
+        th.m2-#{$step}{
+            width: #{percentage( $step / 100  )};
+        }
+    }
+}
+
+@include responsive(35){
+    th.desk-center,
+    td.desk-center {
+        text-align: center;
+    }
+}
+
+@include responsive(3){
+    @each $step in $percentages {
+        th.t-#{$step}{
+            width: #{percentage( $step / 100  )};
+        }
+    }
+}
+
+@include responsive(4){
+    @each $step in $percentages {
+        th.d-#{$step}{
+            width: #{percentage( $step / 100  )};
+        }
+    }
+}
+
+@include responsive(5){
+    @each $step in $percentages {
+        th.w-#{$step}{
+            width: #{percentage( $step / 100  )};
+        }
+    }
+}

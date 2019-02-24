@@ -70,16 +70,16 @@
             <thead>
                 <tr>
                     <th>League</th>
-                    <th>Type</th>
-                    <th>Teams</th>
+                    <th class="t-10 d-10 w-10 desk-center">Type</th>
+                    <th class="t-10 d-10 w-10 desk-center">Teams</th>
                 </tr>
             </thead>   
             <tbody>
                 {% for league in unavailable_leagues %}
                     <tr>
                         <td>{{ league }}</td>
-                        <td>{{ league.access_type }}</td>
-                        <td>{{ league.team_set.count }}</td>
+                        <td class="desk-center">{{ league.access_type }}</td>
+                        <td class="desk-center">{{ league.team_set.count }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -893,6 +893,445 @@ th.rider-info {
   }
 }
 
+@media only screen and (max-width: 480px) {
+  td.m1-center {
+    text-align: center;
+  }
+
+  th.m1-1 {
+    width: 1%;
+  }
+
+  th.m1-2 {
+    width: 2%;
+  }
+
+  th.m1-3 {
+    width: 3%;
+  }
+
+  th.m1-4 {
+    width: 4%;
+  }
+
+  th.m1-5 {
+    width: 5%;
+  }
+
+  th.m1-6 {
+    width: 6%;
+  }
+
+  th.m1-7 {
+    width: 7.0%;
+  }
+
+  th.m1-8 {
+    width: 8%;
+  }
+
+  th.m1-9 {
+    width: 9%;
+  }
+
+  th.m1-10 {
+    width: 10%;
+  }
+
+  th.m1-15 {
+    width: 15%;
+  }
+
+  th.m1-20 {
+    width: 20%;
+  }
+
+  th.m1-25 {
+    width: 25%;
+  }
+
+  th.m1-30 {
+    width: 30%;
+  }
+
+  th.m1-35 {
+    width: 35%;
+  }
+
+  th.m1-40 {
+    width: 40%;
+  }
+
+  th.m1-45 {
+    width: 45%;
+  }
+
+  th.m1-50 {
+    width: 50%;
+  }
+
+  th.m1-60 {
+    width: 60%;
+  }
+
+  th.m1-80 {
+    width: 80%;
+  }
+
+  th.m1-90 {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+  td.m2-center {
+    text-align: center;
+  }
+
+  th.m2-1 {
+    width: 1%;
+  }
+
+  th.m2-2 {
+    width: 2%;
+  }
+
+  th.m2-3 {
+    width: 3%;
+  }
+
+  th.m2-4 {
+    width: 4%;
+  }
+
+  th.m2-5 {
+    width: 5%;
+  }
+
+  th.m2-6 {
+    width: 6%;
+  }
+
+  th.m2-7 {
+    width: 7.0%;
+  }
+
+  th.m2-8 {
+    width: 8%;
+  }
+
+  th.m2-9 {
+    width: 9%;
+  }
+
+  th.m2-10 {
+    width: 10%;
+  }
+
+  th.m2-15 {
+    width: 15%;
+  }
+
+  th.m2-20 {
+    width: 20%;
+  }
+
+  th.m2-25 {
+    width: 25%;
+  }
+
+  th.m2-30 {
+    width: 30%;
+  }
+
+  th.m2-35 {
+    width: 35%;
+  }
+
+  th.m2-40 {
+    width: 40%;
+  }
+
+  th.m2-45 {
+    width: 45%;
+  }
+
+  th.m2-50 {
+    width: 50%;
+  }
+
+  th.m2-60 {
+    width: 60%;
+  }
+
+  th.m2-80 {
+    width: 80%;
+  }
+
+  th.m2-90 {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 768px) {
+  th.desk-center,
+  td.desk-center {
+    text-align: center;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1029px) {
+  th.t-1 {
+    width: 1%;
+  }
+
+  th.t-2 {
+    width: 2%;
+  }
+
+  th.t-3 {
+    width: 3%;
+  }
+
+  th.t-4 {
+    width: 4%;
+  }
+
+  th.t-5 {
+    width: 5%;
+  }
+
+  th.t-6 {
+    width: 6%;
+  }
+
+  th.t-7 {
+    width: 7.0%;
+  }
+
+  th.t-8 {
+    width: 8%;
+  }
+
+  th.t-9 {
+    width: 9%;
+  }
+
+  th.t-10 {
+    width: 10%;
+  }
+
+  th.t-15 {
+    width: 15%;
+  }
+
+  th.t-20 {
+    width: 20%;
+  }
+
+  th.t-25 {
+    width: 25%;
+  }
+
+  th.t-30 {
+    width: 30%;
+  }
+
+  th.t-35 {
+    width: 35%;
+  }
+
+  th.t-40 {
+    width: 40%;
+  }
+
+  th.t-45 {
+    width: 45%;
+  }
+
+  th.t-50 {
+    width: 50%;
+  }
+
+  th.t-60 {
+    width: 60%;
+  }
+
+  th.t-80 {
+    width: 80%;
+  }
+
+  th.t-90 {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1030px) and (max-width: 1239px) {
+  th.d-1 {
+    width: 1%;
+  }
+
+  th.d-2 {
+    width: 2%;
+  }
+
+  th.d-3 {
+    width: 3%;
+  }
+
+  th.d-4 {
+    width: 4%;
+  }
+
+  th.d-5 {
+    width: 5%;
+  }
+
+  th.d-6 {
+    width: 6%;
+  }
+
+  th.d-7 {
+    width: 7.0%;
+  }
+
+  th.d-8 {
+    width: 8%;
+  }
+
+  th.d-9 {
+    width: 9%;
+  }
+
+  th.d-10 {
+    width: 10%;
+  }
+
+  th.d-15 {
+    width: 15%;
+  }
+
+  th.d-20 {
+    width: 20%;
+  }
+
+  th.d-25 {
+    width: 25%;
+  }
+
+  th.d-30 {
+    width: 30%;
+  }
+
+  th.d-35 {
+    width: 35%;
+  }
+
+  th.d-40 {
+    width: 40%;
+  }
+
+  th.d-45 {
+    width: 45%;
+  }
+
+  th.d-50 {
+    width: 50%;
+  }
+
+  th.d-60 {
+    width: 60%;
+  }
+
+  th.d-80 {
+    width: 80%;
+  }
+
+  th.d-90 {
+    width: 90%;
+  }
+}
+@media only screen and (min-width: 1240px) {
+  th.w-1 {
+    width: 1%;
+  }
+
+  th.w-2 {
+    width: 2%;
+  }
+
+  th.w-3 {
+    width: 3%;
+  }
+
+  th.w-4 {
+    width: 4%;
+  }
+
+  th.w-5 {
+    width: 5%;
+  }
+
+  th.w-6 {
+    width: 6%;
+  }
+
+  th.w-7 {
+    width: 7.0%;
+  }
+
+  th.w-8 {
+    width: 8%;
+  }
+
+  th.w-9 {
+    width: 9%;
+  }
+
+  th.w-10 {
+    width: 10%;
+  }
+
+  th.w-15 {
+    width: 15%;
+  }
+
+  th.w-20 {
+    width: 20%;
+  }
+
+  th.w-25 {
+    width: 25%;
+  }
+
+  th.w-30 {
+    width: 30%;
+  }
+
+  th.w-35 {
+    width: 35%;
+  }
+
+  th.w-40 {
+    width: 40%;
+  }
+
+  th.w-45 {
+    width: 45%;
+  }
+
+  th.w-50 {
+    width: 50%;
+  }
+
+  th.w-60 {
+    width: 60%;
+  }
+
+  th.w-80 {
+    width: 80%;
+  }
+
+  th.w-90 {
+    width: 90%;
+  }
+}
 .btn {
   -webkit-appearance: none;
   -moz-appearance: none;
