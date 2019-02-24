@@ -6,12 +6,19 @@
 
 {% block content %}
 
-<h1>Create a League</h1>
-
-<form action="/league/add/" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
+<section>
+    <div class="wrap">
+        <header class="section-header region">
+            <h1 class="page-title">Create a League</h1>
+        </header>
+        <div class="section-content region">
+            <form action="/league/add/" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

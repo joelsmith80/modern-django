@@ -66,12 +66,6 @@ def race_show(request,slug):
     if results: 
         rows['finishers'] = results.get('finishers')
         if 'dnf' in results: rows['dnf'] = results.get('dnf')
-    # else:
-        # participants = Participation.objects.filter(race=race.id).order_by('bib')
-        # formatted = Participation.format_for_table_rows(participants)
-        # rows = {
-            # 'overall_results': formatted
-        # }
     context = {
         'race': race,
         'races': races,
@@ -104,12 +98,14 @@ def team_join_league(request,id):
     # get basic variables
     team = get_object_or_404(Team,id=id)
     team_belongs_to_user = True if request.user.id == team.user_id else False
-    joinable_leagues = League.objects.filter(is_classic=True,is_full=False)
+    joinable_leagues = League.get_joinable()
+    unavailable_leagues = League.get_unavailable()
     teams_per_league = SiteOption.objects.only('opt_value').get(opt_key='classics_teams_per_league')
     teams_per_league = int(teams_per_league.opt_value)
     context = {
         'team': team,
         'joinable_leagues': joinable_leagues,
+        'unavailable_leagues': unavailable_leagues,
         'team_belongs_to_user': team_belongs_to_user
     }
 
@@ -393,4 +389,7 @@ def league_add(request):
             return HttpResponseRedirect(reverse('races:league_show',args=(l.id,)))
     else:
         form = CreateLeagueForm()
-    return render(request, 'leagues/add.html', {'form': form}) 
+    context = {
+        'form': form
+    }
+    return render(request, 'leagues/add.html', context) 

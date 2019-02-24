@@ -9,7 +9,7 @@
 <section>
     <div class="wrap">
         <header class="section-header region">
-            <h2 class="section-title">Available Leagues</h2>
+            <h1 class="page-title">Available Leagues</h1>
         </header>
         <div class="section-content region">
 
@@ -59,4 +59,33 @@
         </div>
     </div>
 </section>
+
+{% if unavailable_leagues %}
+<section>
+    <div class="wrap">
+        <header class="section-header region">
+            <h2 class="section-title">Unavailable Leagues</h2>
+        </header>
+        <table class="section-content region">
+            <thead>
+                <tr>
+                    <th>League</th>
+                    <th>Type</th>
+                    <th>Teams</th>
+                </tr>
+            </thead>   
+            <tbody>
+                {% for league in unavailable_leagues %}
+                    <tr>
+                        <td>{{ league }}</td>
+                        <td>{{ league.access_type }}</td>
+                        <td>{{ league.team_set.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endif %}
+
 {% endblock %}

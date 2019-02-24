@@ -281,6 +281,12 @@ class League(models.Model):
             hi_score = team.points
         return queryset
 
+    def get_joinable():
+        return League.objects.filter( is_classic = True ).filter( is_full = False )
+
+    def get_unavailable():
+        return League.objects.filter( is_classic = True ).filter( is_full = True )
+
 
             
 
