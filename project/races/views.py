@@ -26,7 +26,8 @@ from .forms import CreateRosterForm
 logger = logging.getLogger(__name__)
 
 def home(request):
-    race_list = Race.objects.filter(is_classic=1).order_by('starts')
+    # race_list = Race.objects.filter(is_classic=1).order_by('starts')
+    race_list = Race.get_races()
     for race in race_list:
         results = race.has_results()
         if results:

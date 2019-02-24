@@ -91,7 +91,7 @@ class Race(models.Model):
             return None
 
     def get_races():
-        return Race.objects.filter(is_classic=1).order_by('starts')
+        return Race.objects.filter(is_classic=1,is_live=1).order_by('starts')
 
     def get_series( race, races, step = 'next' ):
         race_ids = []
